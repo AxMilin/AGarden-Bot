@@ -56,19 +56,33 @@ nav a {
 /* Items in row layout */
 .item-row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.2rem;
   margin-top: 1rem;
+  padding: 0;          /* no padding, full width */
+  width: 100%;         /* full width of parent */
+  box-sizing: border-box;
 }
 
 .item-box {
-  background: #2a2a2a;
-  padding: 0.5rem 1rem;
-  border-radius: 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 0.05rem;
+  background: #1a1a1a; /* darker bg */
+  border-radius: 0.4rem;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #333; /* subtle border */
+  transition: background-color 0.3s ease;
+}
+
+.item-box:hover {
+  background: #2e2e2e; /* slightly brighter on hover */
 }
 
 img {
@@ -101,4 +115,11 @@ img {
 
 h1, h2 {
   color: #ffffff;
+}
+
+/* Highlight active weather */
+.item-box.active-weather {
+  background-color: #2e7d32; /* green highlight */
+  color: #fff;
+  font-weight: bold;
 }

@@ -16,8 +16,16 @@ function formatWeather(name, emoji, data) {
   const time = new Date(data.LastSeen);
   const now = new Date();
   const hoursAgo = Math.floor((now - time) / (1000 * 60 * 60));
-  const status = data.active ? "✅ Active" : "❌ Inactive";
-  return `<div class="card">${emoji} <strong>${name}</strong><br>${status}<br>Last Seen: ${hoursAgo}h ago</div>`;
+  const isActive = data.active;
+
+  return {
+    html: `
+      <div class="item-box${isActive ? ' active-weather' : ''}">
+        ${emoji} <strong>${name}</strong><br>
+        <small>${hoursAgo}h ago</small>
+      </div>`,
+    time
+  };
 }
 
 async function loadStock() {
@@ -29,17 +37,22 @@ async function loadStock() {
   const weatherData = await weatherRes.json();
 
   const stockDiv = document.getElementById('stock');
-  const weatherDiv = document.getElementById('weather');
   stockDiv.innerHTML = '';
-  weatherDiv.innerHTML = '';
 
-  // Add emojis for each category here
   const categoryEmojis = {
     gearStock: '⚙️',
     seedsStock: '🌱',
     eggStock: '🥚',
-    BeeStock: '🐝',
+    BeeStock: '🎟️',
     cosmeticsStock: '✨'
+  };
+
+  const categoryTitles = {
+    gearStock: 'Gear Stock',
+    seedsStock: 'Seeds Stock',
+    eggStock: 'Egg Stock',
+    BeeStock: 'Event Shop Stock',
+    cosmeticsStock: 'Cosmetics Stock'
   };
 
   const categories = ['gearStock', 'seedsStock', 'eggStock', 'BeeStock', 'cosmeticsStock'];
@@ -47,15 +60,19 @@ async function loadStock() {
   categories.forEach(cat => {
     const section = document.createElement('div');
     section.className = 'card';
+
     const emoji = categoryEmojis[cat] || '';
-    const title = cat.replace('Stock', '');
-    section.innerHTML = `<h2>${emoji} ${title.charAt(0).toUpperCase() + title.slice(1)}</h2>`;
+    const title = categoryTitles[cat] || cat;
+
+    section.innerHTML = `<h2>${emoji} ${title}</h2>`;
 
     const itemRow = document.createElement('div');
     itemRow.className = 'item-row';
 
     stockData[cat].forEach(item => {
-      const img = itemImages[item.name] ? `<img src="${itemImages[item.name]}" alt="${item.name}" />` : '';
+const fallbackImage = Object.values(itemImages)[0]; // first available image
+const imageSrc = itemImages[item.name] || fallbackImage;
+const img = imageSrc ? `<img src="${imageSrc}" alt="${item.name}" />` : '';
       const itemBox = document.createElement('div');
       itemBox.className = 'item-box';
       itemBox.innerHTML = `${img}${item.name} x${item.value}`;
@@ -66,14 +83,33 @@ async function loadStock() {
     stockDiv.appendChild(section);
   });
 
-  weatherDiv.innerHTML += formatWeather("Rain", "🌧️", weatherData.rain);
-  weatherDiv.innerHTML += formatWeather("Snow", "❄️", weatherData.snow);
-  weatherDiv.innerHTML += formatWeather("Thunderstorm", "⛈️", weatherData.thunderstorm);
-  weatherDiv.innerHTML += formatWeather("Meteorshower", "☄️", weatherData.meteorshower);
-  weatherDiv.innerHTML += formatWeather("Frost", "🧊", weatherData.frost);
-  weatherDiv.innerHTML += formatWeather("Bloodnight", "🌙", weatherData.bloodnight);
+  // Add weather card separately
+  const weatherCard = document.createElement('div');
+  weatherCard.className = 'card';
+  weatherCard.innerHTML = `<h2>⛅ Weather</h2>`;
+
+  const weatherRow = document.createElement('div');
+  weatherRow.className = 'item-row';
+
+  const allWeather = [
+    formatWeather("Rain", "🌧️", weatherData.rain),
+    formatWeather("Snow", "❄️", weatherData.snow),
+    formatWeather("Thunderstorm", "⛈️", weatherData.thunderstorm),
+    formatWeather("Meteorshower", "☄️", weatherData.meteorshower),
+    formatWeather("Frost", "🧊", weatherData.frost),
+    formatWeather("Bloodnight", "🌙", weatherData.bloodnight)
+  ];
+
+  allWeather
+    .sort((a, b) => b.time - a.time)
+    .forEach(entry => {
+      weatherRow.insertAdjacentHTML('beforeend', entry.html);
+    });
+
+  weatherCard.appendChild(weatherRow);
+  stockDiv.appendChild(weatherCard);
 }
 
-// Refresh every 5 minutes
+// Initial load + refresh every 5 mins
 loadStock();
 setInterval(loadStock, 5 * 60 * 1000);

@@ -1,0 +1,206 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4Q6D00FW2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4Q6D00FW2R');
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Item Info</title>
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .category-section {
+      margin-bottom: 3rem;
+    }
+
+    .category-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.5rem;
+      text-transform: uppercase;
+      color: #90caf9;
+    }
+
+    .item-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .item-card {
+      background: #1f1f1f;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      width: 120px;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .item-card:hover {
+      background: #2c2c2c;
+    }
+
+    .item-card img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 0.5rem;
+    }
+
+    #itemModal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modalContent {
+      background: #1e1e1e;
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 400px;
+      color: #fff;
+      text-align: center;
+    }
+
+    #modalImg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .close-btn {
+      margin-top: 1rem;
+      background: #333;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+  </style>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <nav>
+    <div><strong>AGarden Bot</strong></div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="stock.html">Stock</a>
+      <a href="iteminfo.html">Items</a>
+    </div>
+  </nav>
+  <div class="container" id="itemContainer"></div>
+
+  <div id="itemModal">
+    <div id="modalContent">
+      <img id="modalImg" src="" alt="">
+      <h2 id="modalName"></h2>
+      <div id="modalDesc"></div>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const ITEM_INFO_URL = 'https://growagardenapi.vercel.app/api/Item-Info';
+
+    async function loadItems() {
+      const res = await fetch(ITEM_INFO_URL);
+      const items = await res.json();
+
+      const categoryOrder = ['Fruits', 'Gears', 'Pets', 'Eggs', 'Cosmetics'];
+      const grouped = {};
+
+      categoryOrder.forEach(cat => grouped[cat] = []);
+
+      items.forEach(item => {
+        const cat = item.category || 'Other';
+        if (grouped[cat]) grouped[cat].push(item);
+      });
+
+      const container = document.getElementById('itemContainer');
+      container.innerHTML = '';
+
+      categoryOrder.forEach(cat => {
+        if (!grouped[cat] || grouped[cat].length === 0) return;
+
+        const section = document.createElement('div');
+        section.className = 'category-section';
+
+        const title = document.createElement('div');
+        title.className = 'category-title';
+        title.textContent = cat;
+        section.appendChild(title);
+
+        const grid = document.createElement('div');
+        grid.className = 'item-grid';
+
+        grouped[cat].forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'item-card';
+          card.innerHTML = `<img src="${item.image}" alt="${item.name}"><div>${item.name}</div>`;
+          card.onclick = () => openModal(item);
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+    }
+
+    function openModal(item) {
+      document.getElementById('modalImg').src = item.image;
+      document.getElementById('modalName').textContent = item.name;
+
+      const m = item.metadata || {};
+      document.getElementById('modalDesc').innerHTML = `
+        <strong>Type:</strong> ${m.type || 'N/A'}<br>
+        <strong>Tier:</strong> ${m.tier || 'N/A'}<br>
+        <strong>Rarity:</strong> ${item.rarity}<br>
+        <strong>Buy Price:</strong> ${m.buyPrice || 'N/A'}<br>
+        <strong>Sell Value:</strong> ${m.sellValue || 'N/A'}<br>
+        <strong>Amount in Shop:</strong> ${m.amountInShop || 'N/A'}<br>
+        <strong>Multi-Harvest:</strong> ${m.multiHarvest ? 'Yes' : 'No'}<br>
+        <strong>Tradeable:</strong> ${m.tradeable ? 'Yes' : 'No'}
+      `;
+
+      document.getElementById('itemModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('itemModal').style.display = 'none';
+    }
+
+    window.onclick = (e) => {
+      if (e.target.id === 'itemModal') closeModal();
+    };
+
+    loadItems();
+  </script>
+</body>
+</html>

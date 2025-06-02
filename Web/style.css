@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+a {
+  color: #90caf9;
+  text-decoration: none;
+}
+
+nav {
+  background: #1f1f1f;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  margin-left: 1rem;
+}
+
+/* Container that holds everything */
+.container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center horizontally */
+}
+
+/* Stock container: flex wrap + center + max width */
+#stock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* center the cards horizontally */
+  gap: 16px;
+  max-width: 960px; /* max width for container */
+  width: 100%;
+  margin: 0 auto; /* center on page */
+}
+
+/* Each category card */
+.card {
+  background: #1e1e1e;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+  flex: 1 1 300px; /* grow, shrink, basis */
+  max-width: 300px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Items in row layout */
+.item-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.item-box {
+  background: #2a2a2a;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+img {
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Weather container: similar to stock */
+#weather {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 960px;
+  width: 100%;
+  margin: 2rem auto 0 auto;
+}
+
+/* Weather cards style */
+#weather .card {
+  background: #1e1e1e;
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+  max-width: 140px;
+  flex: 1 1 140px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+h1, h2 {
+  color: #ffffff;
+}

@@ -21,10 +21,15 @@ async function fetchItemImages() {
 }
 
 function formatWeather(name, emoji, data) {
+  if (!data) return null;
+
   const time = new Date(data.LastSeen);
   const now = new Date();
   const hoursAgo = Math.floor((now - time) / (1000 * 60 * 60));
   const isActive = data.active;
+
+  // Skip inactive weather older than 24 hours
+  if (!isActive && hoursAgo > 24) return null;
 
   return {
     html: `
@@ -43,6 +48,7 @@ async function loadStock() {
 
   const stockData = await stockRes.json();
   const weatherData = await weatherRes.json();
+  console.log("Weather Data:", weatherData);
 
   const stockDiv = document.getElementById('stock');
   stockDiv.innerHTML = '';
@@ -106,7 +112,7 @@ async function loadStock() {
     formatWeather("Meteorshower", "☄️", weatherData.meteorshower),
     formatWeather("Frost", "🧊", weatherData.frost),
     formatWeather("Bloodnight", "🌙", weatherData.bloodnight)
-  ];
+  ].filter(entry => entry !== null);
 
   allWeather
     .sort((a, b) => b.time - a.time)

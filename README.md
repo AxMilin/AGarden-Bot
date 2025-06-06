@@ -24,8 +24,11 @@ Web/
 
 - Sends real-time stock notifications from the Grow A Garden Roblox game to Discord channels.
 - Simple web frontend with:
-  - Home page
-  - Stock page showing current stock info
+- Stock page showing current stock info
+
+## API
+
+- Thanks to [Just3itx](https://github.com/Just3itx/Grow-A-Garden-API) 
 
 ---
 

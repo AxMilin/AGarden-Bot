@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Grow a Garden Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Mobile menu toggle (swipe‐gesture controlled as well) -->
+  <button class="mobile-menu-toggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="container">
+    <!-- ─── Sidebar ─── -->
+    <nav class="sidebar" id="sidebar">
+      <!-- Search box -->
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="🔍 Search crops..."
+          id="sidebarSearch"
+        />
+      </div>
+
+      <!-- ── Filter controls ── -->
+      <div class="filter-controls">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter"></select>
+      </div>
+
+      <!-- ── Favorites ── -->
+      <div class="favorites-section">
+        <h3>★ Favorites</h3>
+        <div id="favoritesList"></div>
+        <p class="empty-state" style="color:#aaa; display:none;">
+          No favorites yet
+        </p>
+      </div>
+    </nav>
+
+    <!-- ─── Crop / Calculator Panel ─── -->
+    <div id="panel" class="plant-panel">
+      <button class="back-btn" onclick="hidePanel()">← Back</button>
+      <h3 id="panel-title"></h3>
+      <select id="plant-select"></select>
+
+      <label>
+        Mass (kg) <span class="tooltip" data-tooltip="0.01 - 9999 kg">❓</span>
+      </label>
+      <input
+        type="number"
+        id="mass"
+        step="0.01"
+        min="0.01"
+        max="9999"
+        placeholder="e.g. 24.02"
+        oninput="validateMass()"
+      />
+      <p class="input-hint">Allowed range: 0.01 - 9999 kg</p>
+      <p class="validation-error" id="massError"></p>
+
+      <div class="mutation-section">
+        <h4>Mutations</h4>
+        <div class="mutation-chips" id="mutation-chips"></div>
+
+        <h4>Variants</h4>
+        <div class="variant-buttons">
+          <button class="active" data-mult="1">Normal</button>
+          <button data-mult="20">Golden</button>
+          <button data-mult="50">Rainbow</button>
+        </div>
+
+        <div class="current-multiplier">
+          Active Multiplier: <span id="active-multiplier">1</span>
+        </div>
+      </div>
+
+      <input type="hidden" id="multiplier" value="1" />
+      <button onclick="calculate()">Calculate</button>
+      <div class="result" id="result" style="display:none;"></div>
+    </div>
+
+    <!-- ─── Crop Reference Panel (Value at 1 Kg) ─── -->
+    <div class="crop-reference-panel" id="crop-reference">
+      <button class="back-btn" onclick="hideCropReference()">
+        ← Back to Calculator
+      </button>
+      <h2 style="text-align:center; font-weight:bold; font-size:1.6em; margin-bottom:20px;">
+        Crop Value Reference (Value at 1 Kg)
+      </h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Crop</th><th>Base Value</th></tr>
+          </thead>
+          <tbody id="stats-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+<div class="reverse-lookup-panel" id="reversePanel">
+  <button class="back-btn" id="hideReverseLookup()">← Back</button>
+  <h2>Reverse Price Lookup</h2>
+
+  <label for="targetPrice">Target Price:</label>
+  <input type="number" id="targetPrice" placeholder="Enter target price" min="1" />
+
+  <label for="reverseCropSelect">Crop:</label>
+  <select id="reverseCropSelect">
+    <option value="" disabled selected>-- Select a crop --</option>
+  </select>
+
+  <label for="reverseVariantSelect">Variant:</label>
+  <select id="reverseVariantSelect">
+    <option value="any">Any</option>
+    <option value="Normal">Normal</option>
+    <option value="Golden">Golden</option>
+    <option value="Rainbow">Rainbow</option>
+  </select>
+
+  <label for="maxMutsSelect">Max Mutations:</label>
+  <select id="maxMutsSelect">
+    <option value="0">0 (no mutations)</option>
+    <option value="1">1 mutation</option>
+    <option value="2">2 mutations</option>
+    <option value="3">3 mutations</option>
+    <option value="4">4 mutations</option>
+    <option value="5">5 mutations</option>
+    <option value="any" selected>Any</option>
+  </select>
+
+  <button id="findCombosBtn" onclick="findCombos()">Find Combinations</button>
+  <div id="reverseResults"></div>
+</div>
+
+    <!-- ─── Trivia Quiz Panel ─── -->
+    <div class="trivia-panel" id="triviaPanel">
+      <button class="back-btn" onclick="hideTrivia()">← Back</button>
+      <h2>Trivia Quiz</h2>
+      <div id="quizContent">
+        <p id="quizQuestion"></p>
+        <div id="quizOptions"></div>
+        <p id="quizFeedback"></p>
+        <button id="nextQuestionBtn" onclick="nextQuestion()" style="display:none;">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── Main Content ─── -->
+    <main class="main">
+      <section class="hero">
+        <h1>Welcome to the Sell Price Calculator!</h1>
+        <p>
+          Select a category on the left, pick your plant, enter its weight and
+          multiplier, then click Calculate to see your sell price.
+        </p>
+      </section>
+
+      <section class="calculator-panel">
+        <h2>Calculation Results</h2>
+        <p id="calc-output">Your result will appear here.</p>
+      </section>
+
+      <section class="tips-grid">
+        <h2>Quick Tips &amp; FAQs</h2>
+        <div class="grid-cards">
+          <div class="card">
+            <h3>Tip: Precision Matters</h3>
+            <p>Use two decimal places in weight for the most accurate price.</p>
+          </div>
+          <div class="card">
+            <h3>Tip: Multipliers</h3>
+            <p>Enter your mutation or event multipliers accurately to reflect true value.</p>
+          </div>
+          <div class="card">
+            <h3>FAQ: Floor Function</h3>
+            <p>This calculator rounds down (floor) to match in-game behavior.</p>
+          </div>
+          <div class="card">
+            <h3>FAQ: Resetting</h3>
+            <p>Click a different category or reload the page to reset inputs.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="history">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Calculation History</h2>
+          <div class="history-controls">
+            <button onclick="clearHistory()" class="clear-btn">Clear History</button>
+            <button onclick="toggleHistoryView()" class="toggle-btn">📋</button>
+          </div>
+        </div>
+        <ul id="history-list"><li>No calculations yet.</li></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <p>
+      <a href="#">Grow a Garden Wiki</a> |
+      <a href="#">Discord</a> |
+      <a href="#">GitHub Source</a>
+    </p>
+  </footer>
+
+  <!-- ─── Floating Buttons ─── -->
+  <button class="view-crops-btn" onclick="showCropReference()">🌱 Crop Values</button>
+  <button class="reverse-lookup-btn" id="showReverseLookup()">🔍 Reverse Lookup</button>
+  <button class="trivia-btn" onclick="showTrivia()">🎲 Trivia Quiz</button>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>

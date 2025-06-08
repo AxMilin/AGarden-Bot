@@ -16,7 +16,7 @@ export async function onRequestGet() {
     return new Response(JSON.stringify(data), {
       headers: {
         "Content-Type": "application/json",
-        "Cache-Control": "no-store"
+        "Cache-Control": "no-store",
         "Access-Control-Allow-Origin": "*"
       }
     });

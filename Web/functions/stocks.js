@@ -1,11 +1,9 @@
 export async function onRequestGet() {
   try {
-    const res = await fetch("http://65.108.103.151:22377/api/stocks", {
+    const res = await fetch("http://gag.axmilin.in.th:22377/api/stocks", {
       headers: {
         "User-Agent": "curl/8.0",
         "Accept": "application/json",
-        "Referer": "http://65.108.103.151:22377",
-        "Origin": "http://65.108.103.151:22377"
       }
     });
 
@@ -19,6 +17,7 @@ export async function onRequestGet() {
       headers: {
         "Content-Type": "application/json",
         "Cache-Control": "no-store"
+        "Access-Control-Allow-Origin": "*"
       }
     });
   } catch (err) {

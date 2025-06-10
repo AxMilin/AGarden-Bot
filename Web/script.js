@@ -27,8 +27,9 @@ async function loadStock() {
 
   try {
     const res = await fetch(STOCK_URL);
-    const json = await res.json();
-    const stockData = json.result;
+    //const json = await res.json();
+    //const stockData = json.result;
+    const stockData = await res.json();
 
     stockDiv.innerHTML = '';
 

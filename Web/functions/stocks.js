@@ -1,6 +1,6 @@
 export async function onRequestGet() {
   try {
-    const res = await fetch("http://gag.axmilin.in.th:22377/api/stocks", {
+    const res = await fetch("https://growagardenapi.vercel.app/api/stock/GetStock", {
       headers: {
         "User-Agent": "curl/8.0",
         "Accept": "application/json",

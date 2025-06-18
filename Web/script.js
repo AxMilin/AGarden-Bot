@@ -1,4 +1,4 @@
-const STOCK_URL = '/stocks';
+const STOCK_URL = 'https://growagardenapi.vercel.app/api/stock/GetStock';
 
 const categoryEmojis = {
   gearStock: '⚙️',

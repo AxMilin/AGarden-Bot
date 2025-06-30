@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grow A Garden Stock Overlay</title>
+<style>
+    body, html {
+    margin: 0; padding: 0; height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    overflow: hidden;
+    background: #000;
+    }
+
+    #overlay {
+        max-height: 90vh;
+        width: 95vw;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 10px 0;
+        box-sizing: border-box;
+    }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .container {
+    width: 95vw;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+  section {
+    width: 100%;
+  }
+h1, h2, h3, h4, h5, h5, h6 {
+  margin: 0 0 10px 0;
+  text-align: center;
+  color: #ff4444;
+  text-shadow: 0 0 8px #aa2222;
+  font-weight: 700;
+  user-select: none;
+}
+
+  #eggs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  #eggs .box {
+    min-width: 90px;
+    min-height: 130px;
+    padding: 12px 14px;
+    font-size: 1.1rem;
+  }
+
+  #gear, #seeds, #lastSeen  {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-auto-flow: row;
+    gap: 12px;
+    justify-content: center;
+    align-items: start;
+  }
+  #gear .box, #seeds .box, #lastSeen .box {
+    min-width: 65px;
+    min-height: 95px;
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .box {
+    background: linear-gradient(135deg, #000000cc 0%, #330000cc 100%);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 6px #330000aa inset;
+    text-align: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    animation: fadeIn 0.4s ease-in;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .in-stock {
+    color: #ffcccc;
+    filter: brightness(1.4);
+    text-shadow: 0 0 8px #ff6666;
+    font-weight: 600;
+    box-shadow: 0 0 10px #ff4444 inset;
+  }
+
+  .emoji {
+    font-size: 2.4rem;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  #gear .emoji,
+  #seeds .emoji {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+
+  .item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .count {
+    font-size: 1rem;
+    margin-top: 6px;
+    color: #ff9999cc;
+  }
+  #gear .count, #seeds .count {
+    font-size: 0.8rem;
+  }
+
+  .last-seen {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    color: #bb6666cc;
+    font-style: italic;
+  }
+
+  .footer {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 1rem;
+    color: #ff6666cc;
+    user-select: none;
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+  }
+</style>
+</head>
+<body>
+  <div class="container" id="overlay" role="main" aria-label="Grow A Garden stock overlay">
+    <section aria-label="Egg stock" style="margin-bottom:20px;">
+      <!-- <h2>Eggs</h2> -->
+      <div class="boxes" id="eggs" tabindex="0" aria-live="polite" aria-atomic="true"></div>
+    </section>
+    <section aria-label="Gear stock">
+      <!-- <h2>Gear</h2> -->
+      <div class="boxes" id="gear" tabindex="0" aria-live="polite" aria-atomic="true"></div>
+    </section>
+    <section aria-label="Seeds stock">
+      <!-- <h2>Seeds</h2> -->
+      <div class="boxes" id="seeds" tabindex="0" aria-live="polite" aria-atomic="true"></div>
+    </section>
+    <section aria-label="Last Seen Items">
+      <h6>___ Last Seen ___</h6>
+      <div id="lastSeen" class="boxes" tabindex="0" aria-live="polite" aria-atomic="true" style="min-height:120px;"></div>
+    </section>  
+    <div class="footer" id="footer" aria-live="polite" aria-atomic="true">Loading data...</div>
+  </div>
+<script>
+  const SeedsEmoji = {
+    'Carrot': '🥕', 'Strawberry': '🍓', 'Blueberry': '🫐', 'Orange Tulip': '🌷', 'Tomato': '🍅',
+    'Corn': '🌽', 'Daffodil': '🌼', 'Watermelon': '🍉', 'Pumpkin': '🎃', 'Apple': '🍎',
+    'Bamboo': '🎍', 'Coconut': '🥥', 'Cactus': '🌵', 'Dragon Fruit': '🐉', 'Mango': '🥭',
+    'Grape': '🍇', 'Mushroom': '🍄', 'Pepper': '🌶️', 'Cacao': '🍫', 'Beanstalk': '🌱',
+    'Ember Lily': '🔥', 'Sugar Apple': '🍏', 'Cauliflower': '🥦', 'Green Apple': '🍏', 'Avocado': '🥑',
+    'Banana': '🍌', 'Pineapple': '🍍', 'Kiwi': '🥝', 'Bell Pepper': '🫑', 'Prickly Pear': '🌵',
+    'Loquat': '🍊', 'Feijoa': '🥭', 'Pitcher Plant': '🪴', 'Rafflesia': '🌺',
+  };
+
+  const GearEmoji = {
+    'Watering Can': '🚿', 'Trowel': '🛠️', 'Basic Sprinkler': '💦', 'Advanced Sprinkler': '🌊',
+    'Godly Sprinkler': '✨', 'Lightning Rod': '⚡', 'Master Sprinkler': '👑', 'Cleaning Spray': '🧴',
+    'Favorite Tool': '💝', 'Harvest Tool': '🚜', 'Friendship Pot': '🪴', 'Recall Wrench': '🔧',
+    'Tanning Mirror': '🪞', 'Magnifying Glass': '🔍',
+  };
+
+  const EggEmoji = {
+    'Common Egg': '🥚', 'Uncommon Egg': '🍳', 'Rare Egg': '🐣', 'Legendary Egg': '🦄',
+    'Mythical Egg': '🔮', 'Bug Egg': '🐛', 'Common Summer Egg': '🟡', 'Rare Summer Egg': '🔵',
+    'Paradise Egg': '🌞', 'Bee Egg': '🐝',
+  };
+
+  const apiUrl = 'https://corsproxy.io/?url=https://growagarden.gg/api/stock';
+
+  function getEmoji(name, category) {
+    if (category === 'Seeds') return SeedsEmoji[name] || '❓';
+    if (category === 'Gear') return GearEmoji[name] || '❓';
+    if (category === 'Eggs') return EggEmoji[name] || '🥚';
+    return '❓';
+  }
+
+  function getImageUrl(name, category) {
+    const slug = name.toLowerCase().replace(/\s+/g, '');
+    const base = {
+      Seeds: 'crops',
+      Gear: 'tool',
+      Eggs: 'egg',
+    }[category];
+    return `https://growagardenstock.com/${base}/${slug}.webp`;
+  }
+
+  function relativeTime(isoString) {
+    if (!isoString) return '';
+    const now = Date.now();
+    const past = new Date(isoString).getTime();
+    const diff = now - past;
+    if (diff < 0) return 'just now';
+    const seconds = Math.floor(diff / 1000);
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  }
+
+  async function fetchData() {
+    try {
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error('Network response was not ok');
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }
+
+function createBox(name, inStock, lastSeen, emoji, count, category) {
+  const box = document.createElement('div');
+  box.className = 'box in-stock';
+
+  const emojiEl = document.createElement('div');
+  emojiEl.className = 'emoji';
+
+  const img = document.createElement('img');
+  img.src = getImageUrl(name, category);
+  img.alt = name;
+  img.style.width = '40px';   // fixed width
+  img.style.height = '40px';  // fixed height
+  img.style.objectFit = 'contain'; // keep aspect ratio inside box
+  img.loading = 'lazy';
+  img.onerror = () => {
+    img.remove();
+    emojiEl.textContent = emoji;
+  };
+
+  emojiEl.appendChild(img);
+
+  const nameEl = document.createElement('div');
+  nameEl.className = 'item-name';
+  nameEl.textContent = name;
+
+  const lastSeenEl = document.createElement('div');
+  lastSeenEl.className = 'last-seen';
+  lastSeenEl.textContent = relativeTime(lastSeen);
+
+  box.append(emojiEl, nameEl);
+
+  if (inStock && count !== undefined) {
+    const countEl = document.createElement('div');
+    countEl.className = 'count';
+    countEl.textContent = `x${count}`;
+    box.appendChild(countEl);
+  }
+
+  box.appendChild(lastSeenEl);
+  return box;
+}
+
+
+  function createEggBoxes(stockList, lastSeenList) {
+    const container = document.createDocumentFragment();
+    const lastSeenMap = new Map();
+    lastSeenList.forEach(i => lastSeenMap.set(i.name, i.seen));
+
+    for (const egg of stockList) {
+      if (egg.value > 0) {
+        const emoji = EggEmoji[egg.name] || '🥚';
+        const lastSeen = lastSeenMap.get(egg.name);
+        const count = egg.value;
+        const boxesToShow = Math.min(count, 3);
+        for (let i = 0; i < boxesToShow; i++) {
+          container.appendChild(createBox(egg.name, true, egg.seen, getEmoji(egg.name, 'Eggs'), count, 'Eggs'));
+        }
+        if (count > 3) {
+          const lastBox = container.lastChild;
+          const countEl = lastBox.querySelector('.count');
+          countEl.textContent = `+${count - 3 + 1}`;
+        }
+      }
+    }
+    return container;
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  function fillCategory(containerId, lastSeenList, stockList, category) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+
+    const stockMap = new Map();
+    (stockList || []).forEach(i => stockMap.set(i.name, i.value));
+
+    const filteredItems = (lastSeenList || []).filter(i => (stockMap.get(i.name) || 0) > 0);
+    container.dataset.items = JSON.stringify(filteredItems);
+
+    const toShow = filteredItems.slice(0, 5);
+    toShow.forEach(item => {
+      const count = stockMap.get(item.name) || 0;
+      container.appendChild(createBox(item.name, true, item.seen, getEmoji(item.name, category), count, category));
+    });
+  }
+
+  function updateLastSeenRandom(containerId, category, stockList) {
+    const container = document.getElementById(containerId);
+    if (!container.dataset.items) return;
+
+    let items = JSON.parse(container.dataset.items);
+    if (items.length <= 5) return;
+
+    shuffleArray(items);
+
+    const stockMap = new Map();
+    (stockList || []).forEach(i => stockMap.set(i.name, i.value));
+
+    container.innerHTML = '';
+    const toShow = items.slice(0, 5);
+    toShow.forEach(item => {
+      const count = stockMap.get(item.name) || 0;
+      container.appendChild(createBox(item.name, true, item.seen, getEmoji(item.name, category), count, category));
+    });
+  }
+
+  function updateFooter(nextRefreshTimestamp) {
+    const footer = document.getElementById('footer');
+    if (!nextRefreshTimestamp) {
+      footer.textContent = 'Next refresh: Unknown';
+      return;
+    }
+    const now = Date.now();
+    let diffMs = nextRefreshTimestamp - now;
+    if (diffMs < 0) diffMs = 0;
+    const mins = Math.floor(diffMs / 60000);
+    const secs = Math.floor((diffMs % 60000) / 1000);
+
+    footer.textContent = `Next refresh in ${mins}m ${secs}s`;
+  }
+
+  let lastSeenPool = [];
+
+  function updateLastSeenPool(data) {
+    const inStockNames = new Set();
+
+    (data.seedsStock || []).forEach(i => { if(i.value > 0) inStockNames.add(i.name); });
+    (data.gearStock || []).forEach(i => { if(i.value > 0) inStockNames.add(i.name); });
+    (data.eggStock || []).forEach(i => { if(i.value > 0) inStockNames.add(i.name); });
+
+    const allLastSeen = [];
+
+    if (data.lastSeen.Seeds)
+      allLastSeen.push(...data.lastSeen.Seeds.filter(i => !inStockNames.has(i.name)));
+    if (data.lastSeen.Gears)
+      allLastSeen.push(...data.lastSeen.Gears.filter(i => !inStockNames.has(i.name)));
+    if (data.lastSeen.Eggs)
+      allLastSeen.push(...data.lastSeen.Eggs.filter(i => !inStockNames.has(i.name)));
+
+    lastSeenPool = allLastSeen;
+  }
+
+ function showRandomLastSeen() {
+  const container = document.getElementById('lastSeen');
+  container.innerHTML = '';
+
+  if (lastSeenPool.length === 0) {
+    container.textContent = 'No out-of-stock items found.';
+    return;
+  }
+
+  shuffleArray(lastSeenPool);
+  const toShow = lastSeenPool.slice(0, 5);
+
+  toShow.forEach(item => {
+    let category = 'Seeds';
+    if (GearEmoji[item.name]) category = 'Gear';
+    else if (EggEmoji[item.name]) category = 'Eggs';
+
+    const emoji = getEmoji(item.name, category);
+    const box = createBox(item.name, false, item.seen, emoji, 0, category);
+    container.appendChild(box);
+  });
+}
+
+
+  let nextRefreshTimestamp = null;
+  let lastFetchedData = null;
+
+  async function fullRefresh() {
+    const data = await fetchData();
+    if (!data) {
+      document.getElementById('footer').textContent = 'Failed to load data';
+      return;
+    }
+    lastFetchedData = data;
+
+    const eggsContainer = document.getElementById('eggs');
+    eggsContainer.innerHTML = '';
+    eggsContainer.appendChild(createEggBoxes(data.eggStock || [], data.lastSeen.Eggs || []));
+
+    fillCategory('gear', data.lastSeen.Gears, data.gearStock, 'Gear');
+    fillCategory('seeds', data.lastSeen.Seeds, data.seedsStock, 'Seeds');
+
+    updateLastSeenPool(data);
+    showRandomLastSeen();
+
+    let nextRefresh = data.nextScheduledFetch;
+    if (!nextRefresh && data.timerCalculatedAt) {
+      nextRefresh = new Date(data.timerCalculatedAt).getTime() + 5 * 60 * 1000;
+    }
+    nextRefreshTimestamp = nextRefresh;
+    updateFooter(nextRefresh);
+  }
+
+  function startTimer() {
+    setInterval(() => {
+      if (nextRefreshTimestamp) {
+        updateFooter(nextRefreshTimestamp);
+      }
+    }, 1000);
+
+    setInterval(() => {
+      showRandomLastSeen();
+    }, 5000);
+  }
+
+  fullRefresh();
+  startTimer();
+
+  setInterval(fullRefresh, 5 * 60 * 1000);
+</script>
+</body>
+</html>

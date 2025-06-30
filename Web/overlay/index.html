@@ -264,19 +264,25 @@ function createBox(name, inStock, lastSeen, emoji, count, category) {
   const emojiEl = document.createElement('div');
   emojiEl.className = 'emoji';
 
-  const img = document.createElement('img');
-  img.src = getImageUrl(name, category);
-  img.alt = name;
-  img.style.width = '40px';   // fixed width
-  img.style.height = '40px';  // fixed height
-  img.style.objectFit = 'contain'; // keep aspect ratio inside box
-  img.loading = 'lazy';
-  img.onerror = () => {
-    img.remove();
-    emojiEl.textContent = emoji;
-  };
+  const item = (lastFetchedData?.[category.toLowerCase() + 'Stock'] || []).find(i => i.name === name);
+  const imgUrl = item?.imageData || getImageUrl(name, category);
 
-  emojiEl.appendChild(img);
+  if (imgUrl) {
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    img.alt = name;
+    img.style.width = '40px';
+    img.style.height = '40px';
+    img.style.objectFit = 'contain';
+    img.loading = 'lazy';
+    img.onerror = () => {
+      img.remove();
+      emojiEl.textContent = emoji;
+    };
+    emojiEl.appendChild(img);
+  } else {
+    emojiEl.textContent = emoji;
+  }
 
   const nameEl = document.createElement('div');
   nameEl.className = 'item-name';

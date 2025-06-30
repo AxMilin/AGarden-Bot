@@ -220,16 +220,6 @@ h1, h2, h3, h4, h5, h5, h6 {
     return '❓';
   }
 
-  function getImageUrl(name, category) {
-    const slug = name.toLowerCase().replace(/\s+/g, '');
-    const base = {
-      Seeds: 'crops',
-      Gear: 'tool',
-      Eggs: 'egg',
-    }[category];
-    return `https://growagardenstock.com/${base}/${slug}.webp`;
-  }
-
   function relativeTime(isoString) {
     if (!isoString) return '';
     const now = Date.now();
@@ -257,53 +247,47 @@ h1, h2, h3, h4, h5, h5, h6 {
     }
   }
 
-function createBox(name, inStock, lastSeen, emoji, count, category) {
-  const box = document.createElement('div');
-  box.className = 'box in-stock';
+  function createBox(name, inStock, lastSeen, emoji, count, category) {
+    const box = document.createElement('div');
+    box.className = 'box in-stock';
 
-  const emojiEl = document.createElement('div');
-  emojiEl.className = 'emoji';
+    const emojiEl = document.createElement('div');
+    emojiEl.className = 'emoji';
 
-  const item = (lastFetchedData?.[category.toLowerCase() + 'Stock'] || []).find(i => i.name === name);
-  const imgUrl = item?.imageData || getImageUrl(name, category);
-
-  if (imgUrl) {
-    const img = document.createElement('img');
-    img.src = imgUrl;
-    img.alt = name;
-    img.style.width = '40px';
-    img.style.height = '40px';
-    img.style.objectFit = 'contain';
-    img.loading = 'lazy';
-    img.onerror = () => {
-      img.remove();
+    // use API-provided imageData map
+    const imgUrl = lastFetchedData?.imageData?.[name];
+    if (imgUrl) {
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.alt = name;
+      img.style.width = '40px'; img.style.height = '40px'; img.style.objectFit = 'contain';
+      img.loading = 'lazy';
+      img.onerror = () => { img.remove(); emojiEl.textContent = emoji; };
+      emojiEl.appendChild(img);
+    } else {
       emojiEl.textContent = emoji;
-    };
-    emojiEl.appendChild(img);
-  } else {
-    emojiEl.textContent = emoji;
+    }
+
+    const nameEl = document.createElement('div');
+    nameEl.className = 'item-name';
+    nameEl.textContent = name;
+
+    const lastSeenEl = document.createElement('div');
+    lastSeenEl.className = 'last-seen';
+    lastSeenEl.textContent = relativeTime(lastSeen);
+
+    box.append(emojiEl, nameEl);
+
+    if (inStock && count !== undefined) {
+      const countEl = document.createElement('div');
+      countEl.className = 'count';
+      countEl.textContent = `x${count}`;
+      box.appendChild(countEl);
+    }
+
+    box.appendChild(lastSeenEl);
+    return box;
   }
-
-  const nameEl = document.createElement('div');
-  nameEl.className = 'item-name';
-  nameEl.textContent = name;
-
-  const lastSeenEl = document.createElement('div');
-  lastSeenEl.className = 'last-seen';
-  lastSeenEl.textContent = relativeTime(lastSeen);
-
-  box.append(emojiEl, nameEl);
-
-  if (inStock && count !== undefined) {
-    const countEl = document.createElement('div');
-    countEl.className = 'count';
-    countEl.textContent = `x${count}`;
-    box.appendChild(countEl);
-  }
-
-  box.appendChild(lastSeenEl);
-  return box;
-}
 
 
   function createEggBoxes(stockList, lastSeenList) {

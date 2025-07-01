@@ -64,29 +64,17 @@ h1, h2, h3, h4, h5, h5, h6 {
   user-select: none;
 }
 
-  #eggs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  #eggs .box {
-    min-width: 90px;
-    min-height: 130px;
-    padding: 12px 14px;
-    font-size: 1.1rem;
-  }
 
-  #gear, #seeds, #lastSeen  {
+  #gear, #seeds, #lastSeen, #eggs  {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     grid-auto-flow: row;
     gap: 12px;
     justify-content: center;
     align-items: start;
     flex-wrap: wrap;
   }
-  #gear .box, #seeds .box, #lastSeen .box {
+  #gear .box, #seeds .box, #lastSeen .box,#eggs .box {
     min-width: 65px;
     min-height: 95px;
     padding: 8px 10px;

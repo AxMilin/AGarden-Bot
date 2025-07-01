@@ -234,7 +234,7 @@ h1, h2, h3, h4, h5, h5, h6 {
 
   async function fetchData() {
     try {
-      const res = await fetch(apiUrl);
+     const res = await fetch(apiUrl, { cache: 'no-store' });
       if (!res.ok) throw new Error('Network response was not ok');
       return await res.json();
     } catch (e) {
@@ -458,7 +458,7 @@ h1, h2, h3, h4, h5, h5, h6 {
   fullRefresh();
   startTimer();
 
-  setInterval(fullRefresh, 5 * 60 * 1000);
+  setInterval(fullRefresh, 1 * 1000);
 </script>
 </body>
 </html>

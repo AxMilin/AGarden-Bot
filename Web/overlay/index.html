@@ -84,6 +84,7 @@ h1, h2, h3, h4, h5, h5, h6 {
     gap: 12px;
     justify-content: center;
     align-items: start;
+    flex-wrap: wrap;
   }
   #gear .box, #seeds .box, #lastSeen .box {
     min-width: 65px;
@@ -120,10 +121,14 @@ h1, h2, h3, h4, h5, h5, h6 {
   }
 
   .emoji {
-    font-size: 2.4rem;
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
     margin-bottom: 6px;
     line-height: 1;
   }
+  .emoji img {
+  width: clamp(30px, 6vw, 40px);
+  height: clamp(30px, 6vw, 40px);
+}
   #gear .emoji,
   #seeds .emoji {
     font-size: 1.6rem;
@@ -131,13 +136,16 @@ h1, h2, h3, h4, h5, h5, h6 {
   }
 
   .item-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: clamp(0.6rem, 1.5vw, 1rem);
+  max-width: 90%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
   }
 
   .count {
-    font-size: 1rem;
+  font-size: clamp(0.6rem, 1.5vw, 0.9rem);
     margin-top: 6px;
     color: #ff9999cc;
   }
@@ -146,7 +154,7 @@ h1, h2, h3, h4, h5, h5, h6 {
   }
 
   .last-seen {
-    font-size: 0.75rem;
+  font-size: clamp(0.5rem, 1.2vw, 0.8rem);
     margin-top: 4px;
     color: #bb6666cc;
     font-style: italic;

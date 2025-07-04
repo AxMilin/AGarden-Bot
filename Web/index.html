@@ -578,6 +578,20 @@
           <p style="margin-top: 2rem;">Start growing smarter. Start growing faster. Start with <strong>AGarden Bot</strong>.</p>
       </div>
         <button onclick="toggleAbout()" class="btn btn-secondary" style="margin-top: 1.5rem;" id="toggleAboutBtn">Read more</button>
+        <script>
+            function toggleAbout() {
+                const more = document.getElementById('moreAbout');
+                const btn = document.getElementById('toggleAboutBtn');
+            
+                if (more.style.display === 'none') {
+                    more.style.display = 'block';
+                    btn.textContent = 'Show less';
+                } else {
+                    more.style.display = 'none';
+                    btn.textContent = 'Read more';
+                }
+            }
+        </script>
     </div>
   </div>
 </section>

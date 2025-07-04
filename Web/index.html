@@ -16,7 +16,10 @@
     <title>Agarden Bot - Discord Bot for Grow A Garden</title>
     <meta name="description" content="Track your Roblox garden game stock in real-time with Agarden Bot" />
     <link rel="icon" type="image/png" href="icon.png">
-    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
     <style>
         * {
             margin: 0;
@@ -500,9 +503,14 @@
                 <div class="footer-section">
                     <h3>Connect</h3>
                     <div class="social-links">
-                        <button class="social-link" onclick="openGithub()">📁</button>
-                        <button class="social-link" onclick="openDiscord()">💬</button>
+                        <button class="social-link" onclick="openGithub()"><i class="fa-brands fa-github"></i></button>
+                        <button class="social-link" onclick="openSupportServer()"><i class="fa-brands fa-discord"></i></button>
                     </div>
+                </div>
+              
+                <div class="footer-section">
+                    <h3>Our Community</h3>
+                    <iframe src="https://discord.com/widget?id=1378788883386339388&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
                 </div>
             </div>
             
@@ -641,11 +649,6 @@
 
         function openGithub() {
             window.open('https://github.com/AxMilin/AGarden-Bot', '_blank');
-        }
-
-
-        function openDiscord() {
-            window.open('https://discord.gg/3cFNsH34U9', '_blank');
         }
 
         // Smooth scrolling for anchor links

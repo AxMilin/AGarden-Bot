@@ -237,22 +237,10 @@
             border: 1px solid;
         }
 
-        .status-critical {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border-color: rgba(239, 68, 68, 0.5);
-        }
-
-        .status-low {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-            border-color: rgba(245, 158, 11, 0.5);
-        }
-
-        .status-normal {
-            background: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-            border-color: rgba(34, 197, 94, 0.5);
+        .status {
+            background: rgb(86 239 68 / 20%);
+            color: #8bf871;
+            border-color: rgb(86 239 68 / 50%);
         }
 
         .stock-quantity {
@@ -555,23 +543,15 @@
 
                 categories.forEach(({ items, category, emoji }) => {
                     items.forEach(item => {
-                        const status = item.value > 10 ? 'normal' : item.value > 3 ? 'low' : 'critical';
                         const imageUrl = data.imageData && data.imageData[item.name] ? data.imageData[item.name] : '';
                         
                         allItems.push({
                             name: item.name,
                             stock: item.value,
                             category,
-                            status,
                             image: imageUrl || emoji
                         });
                     });
-                });
-
-                // Sort by stock level (critical first) and take top 12 for display
-                allItems.sort((a, b) => {
-                    const statusOrder = { critical: 0, low: 1, normal: 2 };
-                    return statusOrder[a.status] - statusOrder[b.status];
                 });
 
                 stockItems = allItems.slice(0, 12);
@@ -614,8 +594,6 @@
         function createStockCard(item) {
             const card = document.createElement('div');
             card.className = 'stock-card';
-
-            const statusClass = `status-${item.status}`;
             
             card.innerHTML = `
                 <div class="stock-header">
@@ -630,7 +608,7 @@
                             <p class="stock-category">${item.category}</p>
                         </div>
                     </div>
-                    <span class="status-badge ${statusClass}">${item.status}</span>
+                    <span class="status-badge status">On Stock</span>
                 </div>
                 <div class="stock-quantity">
                     <span class="stock-label">Stock:</span>

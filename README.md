@@ -1,5 +1,7 @@
 # AGarden Bot
 
+https://agarden-bot.pages.dev/
+
 A Discord bot that notifies Roblox game stock updates for the game **Grow A Garden**.
 
 ---

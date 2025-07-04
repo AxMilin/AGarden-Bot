@@ -703,6 +703,7 @@ AOS.init();
         function createStockCard(item) {
             const card = document.createElement('div');
             card.className = 'stock-card';
+            card.setAttribute('data-aos', 'fade-up'); 
             
             card.innerHTML = `
                 <div class="stock-header">

@@ -16,10 +16,18 @@
     <title>AGarden Bot - Discord Bot for Grow A Garden</title>
     <meta name="description" content="Track your Roblox garden game stock in real-time with AGarden Bot" />
     <link rel="icon" type="image/png" href="icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="keywords" content="Grow A Garden, Roblox garden bot, AGarden Bot, Discord stock tracker, Roblox stock notification, real-time item tracker, Roblox gardening, slash commands, Discord Roblox bot" />  
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <meta name="keywords" content="Grow A Garden, Roblox garden bot, AGarden Bot, Discord stock tracker, Roblox stock notification, real-time item tracker, Roblox gardening, slash commands, Discord Roblox bot" />  
+    <!-- AOS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+AOS.init();
+  </script>
+  
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -50,7 +58,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%);
             color: white;
             min-height: 100vh;
@@ -433,9 +441,9 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <h1>Track Your Garden's Stock in Real-Time</h1>
-            <p>
+        <div class="container" data-aos="fade-up">
+            <h1 data-aos="fade-up">Track Your Garden's Stock in Real-Time</h1>
+            <p data-aos="fade-up">
                 Never miss a restock again! AGarden Bot monitors your favorite Roblox garden game items 
                 and sends instant Discord notifications when they're back in stock.
             </p>
@@ -453,10 +461,10 @@
 
     <!-- Stock Section -->
     <section class="stock-section">
-        <div class="container">
+        <div class="container" data-aos="fade-up">
             <div class="section-title">
-                <h2>Live Stock Monitoring</h2>
-                <p class="section-subtitle">Real-time data from Grow A Garden • Updates every 5 minutes</p>
+                <h2 data-aos="fade-up">Live Stock Monitoring</h2>
+                <p class="section-subtitle" data-aos="fade-up">Real-time data from Grow A Garden • Updates every 5 minutes</p>
                 <p class="last-update" id="lastUpdate">Loading...</p>
             </div>
             
@@ -471,13 +479,13 @@
 
     <!-- Features Section -->
     <section id="features" class="features-section">
-        <div class="container">
+        <div class="container" data-aos="fade-up">
             <div class="section-title">
-                <h2>Powerful Features</h2>
+                <h2 data-aos="fade-up">Powerful Features</h2>
                 <p class="section-subtitle">Everything you need to stay on top of your garden game inventory</p>
             </div>
             
-            <div class="features-grid">
+            <div class="features-grid" data-aos="fade-up">
                 <div class="feature-card">
                     <div class="feature-icon">🔔</div>
                     <h3>Live Notifications</h3>
@@ -504,12 +512,12 @@
 
 
     <section class="stock-section" id="faq">
-  <div class="container">
+  <div class="container" data-aos="fade-up">
     <div class="section-title">
-      <h2>Frequently Asked Questions</h2>
+      <h2 data-aos="fade-up">Frequently Asked Questions</h2>
       <p class="section-subtitle">Everything you need to know</p>
     </div>
-    <div class="features-grid">
+    <div class="features-grid" data-aos="fade-up">
       <div class="feature-card">
         <h3>How does AGarden Bot work?</h3>
         <p>It fetches live data from Grow A Garden’s API every few minutes and posts alerts to your Discord server.</p>
@@ -531,9 +539,9 @@
 </section>
 
 <section  class="features-section" id="about">
-  <div class="container">
+  <div class="container" data-aos="fade-up">
     <div class="section-title">
-      <h2>About AGarden Bot</h2>
+      <h2 data-aos="fade-up">About AGarden Bot</h2>
       <p class="section-subtitle">Built for Grow A Garden players, by Grow A Garden players</p>
     </div>
     <div style="color: #94a3b8; max-width: 900px; margin: auto; line-height: 1.8; font-size: 1.05rem;">

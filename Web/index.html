@@ -532,7 +532,7 @@
         async function fetchStockData() {
             try {
                 console.log('Fetching stock data from API...');
-                const response = await fetch('https://growagarden.gg/api/stock');
+                const response = await fetch('https://corsproxy.io/?url=https://growagarden.gg/api/stock');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

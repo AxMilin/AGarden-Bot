@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "discord-cross-hosting": "^2.3.8",
+    "dotenv": "^16.4.5"
+  }
+}

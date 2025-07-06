@@ -70,6 +70,13 @@ Feel free to open issues or submit pull requests.
 # License
 [GPL-3.0 license](https://github.com/AxMilin/AGarden-Bot/tree/main#GPL-3.0-1-ov-file)
 
+# Support The Bot
+
+- 🟣 Solana: `Dm1Di7eec24Yug4UYUpz3BBY84be3V8hERJfWA3QkFoo`
+- ₿ Bitcoin: `bc1qvfa423wxkqm7mw7m8mg2rpqqa7plx8rflwy8nd`
+- 🔷 Sui: `0x47f39de09455952effefed73be231ca10ba9a8aa5dccfc376c291573c11d2c6a`
+- 🟪 MATIC/POL: `0x4eAd25C7083d09d58edBFf432BB079Dbe2f56969`
+
 
 Made with ❤️ for **Grow A Garden** Roblox fans.
 

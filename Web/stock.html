@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Full Stock - AGarden Bot</title>
+    <meta name="description" content="Full stock list for AGarden Bot, live updated" />
+    <link rel="icon" type="image/png" href="icon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js" integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <!-- AOS -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    AOS.init({ once: true });
+  });
+  </script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4Q6D00FW2R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4Q6D00FW2R');
+</script>
+
+<!-- Google adsense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5724120681963585"
+     crossorigin="anonymous"></script>
+     <meta name="google-adsense-account" content="ca-pub-5724120681963585">
+
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/6868c982dd67f9190a435697/1ivcl6a16';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+  
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "AGarden Bot",
+        "operatingSystem": "All",
+        "applicationCategory": "GameUtility",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5",
+          "reviewCount": "102"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "description": "AGarden Bot is a Discord bot that helps you track Grow A Garden stock in real-time. Get alerts, use slash commands, and more.",
+        "url": "https://agarden-bot.pages.dev/"
+      }
+      </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            border-bottom: 1px solid #334155;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 1rem 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: #5865F2;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background: #4752C4;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #4ade80, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #10b981, #3b82f6);
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #64748b;
+            color: #cbd5e1;
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+        }
+
+        .btn-secondary:hover {
+            background: #1e293b;
+        }
+
+        /* Stock Section */
+        .last-seen-section {
+            background: rgba(15, 23, 42, 0.3);
+            padding: 4rem 0;
+            margin-bottom: 2rem; /* Added margin for spacing between sections */
+            border-radius: 0.75rem; /* Consistent border-radius */
+        }
+
+        .stock-section, .weather-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+
+        .last-update {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: #94a3b8;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 2px solid #64748b;
+            border-top: 2px solid #4ade80;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stock-grid, .last-seen-grid, .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stock-card, .last-seen-card, .weather-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid #475569;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: background-color 0.3s;
+        }
+
+        .stock-card:hover, .last-seen-card:hover, .weather-card:hover {
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .stock-header, .last-seen-header, .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stock-info, .last-seen-info, .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .stock-image, .last-seen-image {
+            width: 2rem;
+            height: 2rem;
+            object-fit: contain;
+        }
+
+        .stock-emoji, .last-seen-emoji, .weather-emoji {
+            font-size: 1.5rem;
+        }
+
+        .stock-details h3, .last-seen-details h3, .weather-details h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .stock-category, .last-seen-category {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        .status {
+            background: rgb(86 239 68 / 20%);
+            color: #8bf871;
+            border-color: rgb(86 239 68 / 50%);
+        }
+
+        .inactive-status { /* New style for inactive status */
+            background: rgba(248, 113, 113, 0.2); /* Reddish background */
+            color: #f87171; /* Reddish text */
+            border-color: rgba(248, 113, 113, 0.5);
+        }
+
+        .stock-quantity {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stock-label {
+            color: #94a3b8;
+        }
+
+        .stock-value {
+            font-weight: 500;
+        }
+
+        .last-seen-time {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Features Section (already exists, but adding for completeness) */
+        .features-section {
+            padding: 4rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.3);
+            border: 1px solid #475569;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(30, 41, 59, 0.5);
+        }
+
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(to right, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #334155;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: #94a3b8;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: color 0.2s;
+            font-size: 1.25rem;
+        }
+
+        .social-link:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stock-grid, .last-seen-grid, .weather-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <img src="icon.png" alt="Bot Icon" width="40" height="40" style="border-radius: 50%;">
+                    <a href="/"><span>AGarden Bot</span></a>
+                </div>
+                <nav class="nav">
+                    <a href="/stock" style="padding: 1.5rem;" > Live Stocks</a>
+                    <a href="#" class="btn" onclick="addToDiscord()" >
+                        <span>🔗</span>
+                        Add to Discord
+                    </a>
+                </nav>
+            </nav>
+        </div>
+    </header>
+
+    <section class="stock-section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2 data-aos="fade-up">All Items In Stock</h2>
+                <p class="section-subtitle" data-aos="fade-up">Updated live every 5 minutes</p>
+                <p class="last-update" id="stockLastUpdate">Loading...</p>
+            </div>
+
+            <div id="stockLoadingIndicator" class="loading">
+                <div class="spinner"></div>
+                Loading stock data...
+            </div>
+
+            <div id="stockGrid" class="stock-grid" style="display: none;"></div>
+        </div>
+    </section>
+
+    <section class="last-seen-section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2 data-aos="fade-up">Last Seen Items</h2>
+                <p class="section-subtitle" data-aos="fade-up">Displays when items were last seen in stock</p>
+                <p class="last-update" id="lastSeenLastUpdate">Loading...</p>
+            </div>
+
+            <div id="lastSeenLoadingIndicator" class="loading">
+                <div class="spinner"></div>
+                Loading last seen data...
+            </div>
+
+            <div id="lastSeenGrid" class="last-seen-grid" style="display: none;"></div>
+        </div>
+    </section>
+
+    <section class="weather-section">
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+                <h2 data-aos="fade-up">Weather Events</h2>
+                <p class="section-subtitle" data-aos="fade-up">Tracking all weather events across the game</p>
+                <p class="last-update" id="weatherLastUpdate">Loading...</p>
+            </div>
+
+            <div id="weatherLoadingIndicator" class="loading">
+                <div class="spinner"></div>
+                Loading weather data...
+            </div>
+
+            <div id="weatherGrid" class="weather-grid" style="display: none;"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <span>🤖</span>
+                        <span>AGarden Bot</span>
+                    </div>
+                    <p>The ultimate Discord bot for tracking your Roblox garden game inventory in real-time.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links </h3>
+                    <div class="footer-links">
+                        <a href="/stock">Live Stocks</a>
+                        <a href="#" onclick="addToDiscord()">Add Bot to Discord</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support </h3>
+                    <div class="footer-links">
+                        <a href="/tos">Term Of Service</a>
+                        <a href="/privpolicy">Privacy Policy</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <button class="social-link" onclick="openGithub()"><i class="fa-brands fa-github"></i></button>
+                        <button class="social-link" onclick="openSupportServer()"><i class="fa-brands fa-discord"></i></button>
+                    </div>
+                </div>
+              
+                <div class="footer-section">
+                    <h3>Our Community</h3>
+                    <iframe src="https://discord.com/widget?id=1378788883386339388&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 AGarden Bot. Made with 💚 by Felix, for the Roblox garden community.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true });
+
+        let stockItems = [];
+        let lastSeenData = null; // To store lastSeen data
+        let weatherEventsData = null; // To store weather data
+        let stockLastUpdate = null;
+        let lastSeenLastUpdate = null;
+        let weatherLastUpdate = null;
+
+        // Function to format time difference
+        function formatTimeAgo(dateString) {
+            if (!dateString) return 'Never';
+            const now = new Date();
+            const past = new Date(dateString);
+            const seconds = Math.floor((now - past) / 1000);
+
+            let interval = seconds / 31536000;
+            if (interval > 1) {
+                return Math.floor(interval) + "y ago";
+            }
+            interval = seconds / 2592000;
+            if (interval > 1) {
+                return Math.floor(interval) + "mo ago";
+            }
+            interval = seconds / 86400;
+            if (interval > 1) {
+                return Math.floor(interval) + "d ago";
+            }
+            interval = seconds / 3600;
+            if (interval > 1) {
+                return Math.floor(interval) + "h ago";
+            }
+            interval = seconds / 60;
+            if (interval > 1) {
+                return Math.floor(interval) + "m ago";
+            }
+            if (seconds > 0) {
+                return Math.floor(seconds) + "s ago";
+            }
+            return "Just now";
+        }
+
+        async function fetchAllData() {
+            try {
+                const response = await fetch('https://corsproxy.io/?url=https://growagarden.gg/api/stock');
+                if (!response.ok) throw new Error('Network error');
+                const data = await response.json();
+
+                // Process Stock Data
+                const allItems = [];
+                const categories = [
+                    { items: data.eggStock || [], category: 'Eggs', emoji: '🥚' },
+                    { items: data.seedsStock || [], category: 'Seeds', emoji: '🌱' },
+                    { items: data.gearStock || [], category: 'Gear', emoji: '🔧' }
+                ];
+
+                categories.forEach(({ items, category, emoji }) => {
+                    items.forEach(item => {
+                        const imageUrl = data.imageData && data.imageData[item.name] ? data.imageData[item.name] : '';
+                        allItems.push({
+                            name: item.name,
+                            stock: item.value,
+                            category,
+                            image: imageUrl || emoji
+                        });
+                    });
+                });
+                stockItems = allItems;
+                stockLastUpdate = new Date();
+                updateStockDisplay();
+
+                // Process Last Seen Data
+                lastSeenData = data.lastSeen;
+                lastSeenLastUpdate = new Date();
+                updateLastSeenDisplay();
+
+                // Process Weather Data
+                weatherEventsData = data.lastSeen.Weather;
+                weatherLastUpdate = new Date();
+                updateWeatherDisplay();
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('stockLoadingIndicator').innerHTML = '<p style="color:#f87171;">Failed to load stock data. Please try again later.</p>';
+                document.getElementById('lastSeenLoadingIndicator').innerHTML = '<p style="color:#f87171;">Failed to load last seen data. Please try again later.</p>';
+                document.getElementById('weatherLoadingIndicator').innerHTML = '<p style="color:#f87171;">Failed to load weather data. Please try again later.</p>';
+            }
+        }
+
+        function updateStockDisplay() {
+            const loadingIndicator = document.getElementById('stockLoadingIndicator');
+            const stockGrid = document.getElementById('stockGrid');
+            const lastUpdateElement = document.getElementById('stockLastUpdate');
+
+            loadingIndicator.style.display = 'none';
+            stockGrid.style.display = 'grid';
+
+            if (stockLastUpdate) {
+                lastUpdateElement.textContent = `Last updated: ${stockLastUpdate.toLocaleTimeString()}`;
+            }
+
+            stockGrid.innerHTML = '';
+
+            stockItems.forEach(item => {
+                const card = createStockCard(item);
+                stockGrid.appendChild(card);
+            });
+        }
+
+        function createStockCard(item) {
+            const card = document.createElement('div');
+            card.className = 'stock-card';
+            card.setAttribute('data-aos', 'fade-up');
+            card.innerHTML = `
+                <div class="stock-header">
+                    <div class="stock-info">
+                        ${item.image.startsWith('http')
+                            ? `<img src="${item.image}" alt="${item.name}" class="stock-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">`
+                            : ''
+                        }
+                        <span class="stock-emoji" ${item.image.startsWith('http') ? 'style="display:none;"' : ''}>${item.image}</span>
+                        <div class="stock-details">
+                            <h3>${item.name}</h3>
+                            <p class="stock-category">${item.category}</p>
+                        </div>
+                    </div>
+                    <span class="status-badge status">On Stock</span>
+                </div>
+                <div class="stock-quantity">
+                    <span class="stock-label">Stock:</span>
+                    <span class="stock-value">x ${item.stock}</span>
+                </div>
+            `;
+            return card;
+        }
+
+        function updateLastSeenDisplay() {
+            const loadingIndicator = document.getElementById('lastSeenLoadingIndicator');
+            const lastSeenGrid = document.getElementById('lastSeenGrid');
+            const lastUpdateElement = document.getElementById('lastSeenLastUpdate');
+
+            loadingIndicator.style.display = 'none';
+            lastSeenGrid.style.display = 'grid';
+
+            if (lastSeenLastUpdate) {
+                lastUpdateElement.textContent = `Last updated: ${lastSeenLastUpdate.toLocaleTimeString()}`;
+            }
+
+            lastSeenGrid.innerHTML = '';
+
+            const categories = ['Seeds', 'Gears', 'Eggs'];
+            categories.forEach(categoryName => {
+                if (lastSeenData && lastSeenData[categoryName]) {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'stock-card'; // Reusing stock-card for consistent styling
+                    categoryDiv.setAttribute('data-aos', 'fade-up');
+                    categoryDiv.innerHTML = `
+                        <div class="stock-header">
+                            <div class="stock-info">
+                                <h3>${categoryName}</h3>
+                            </div>
+                        </div>
+                        <div class="last-seen-items">
+                            ${lastSeenData[categoryName].map(item => `
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                        ${item.emoji || ''} ${item.name}
+                                    </div>
+                                    <span class="last-seen-time">Last seen: ${formatTimeAgo(item.seen)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    lastSeenGrid.appendChild(categoryDiv);
+                }
+            });
+        }
+
+        function updateWeatherDisplay() {
+            const loadingIndicator = document.getElementById('weatherLoadingIndicator');
+            const weatherGrid = document.getElementById('weatherGrid');
+            const lastUpdateElement = document.getElementById('weatherLastUpdate');
+
+            loadingIndicator.style.display = 'none';
+            weatherGrid.style.display = 'grid';
+
+            if (weatherLastUpdate) {
+                lastUpdateElement.textContent = `Last updated: ${weatherLastUpdate.toLocaleTimeString()}`;
+            }
+
+            weatherGrid.innerHTML = '';
+
+            const allPossibleWeatherEvents = [
+                { name: "Thunderstorm", emoji: "⛈️", defaultSeen: "Never" },
+                { name: "Rain", emoji: "🌧️", defaultSeen: "Never" },
+                { name: "Bloodnight", emoji: "🩸", defaultSeen: "Never" },
+                { name: "Meteorshower", emoji: "☄️", defaultSeen: "Never" },
+                { name: "Disco", emoji: "🕺", defaultSeen: "Never" },
+                { name: "Jandelstorm", emoji: "🌪️", defaultSeen: "Never" },
+                { name: "Night", emoji: "🌙", defaultSeen: "Never" },
+                { name: "Volcano", emoji: "🌋", defaultSeen: "Never" },
+                { name: "Chocolaterain", emoji: "🍫", defaultSeen: "Never" },
+                { name: "Blackhole", emoji: "🕳️", defaultSeen: "Never" },
+                { name: "Frost", emoji: "❄️", defaultSeen: "Never" }
+            ];
+
+            allPossibleWeatherEvents.forEach(eventData => {
+                const foundEvent = weatherEventsData.find(event => event.name === eventData.name);
+                const lastSeenTime = foundEvent ? formatTimeAgo(foundEvent.seen) : eventData.defaultSeen;
+                const isActive = lastSeenTime === "Just now" || lastSeenTime.endsWith("s ago") || lastSeenTime.endsWith("m ago") || lastSeenTime.endsWith("h ago") && parseInt(lastSeenTime) < 24; // Consider active if seen within the last day
+
+                const card = document.createElement('div');
+                card.className = 'weather-card';
+                card.setAttribute('data-aos', 'fade-up');
+                card.innerHTML = `
+                    <div class="weather-header">
+                        <div class="weather-info">
+                            <span class="weather-emoji">${eventData.emoji}</span>
+                            <div class="weather-details">
+                                <h3>${eventData.name}</h3>
+                            </div>
+                        </div>
+                        <span class="status-badge ${isActive ? 'status' : 'inactive-status'}">${isActive ? 'Active' : 'Inactive'}</span>
+                    </div>
+                    <div class="weather-status">
+                        <span class="stock-label">Last seen:</span>
+                        <span class="stock-value">${lastSeenTime}</span>
+                    </div>
+                    <div class="weather-count">
+                        <span class="stock-label">Count:</span>
+                        <span class="stock-value">0</span> </div>
+                `;
+                weatherGrid.appendChild(card);
+            });
+        }
+
+        // Reuse your navigation button functions:
+        function addToDiscord() {
+            window.open('https://discord.com/oauth2/authorize?client_id=1378774993147793480&permissions=0&integration_type=0&scope=bot+applications.commands&redirect_uri=https%3A%2F%2Fagarden-bot.pages.dev%2Fthank&response_type=code', '_blank');
+        }
+        function openSupportServer() {
+            window.open('https://discord.gg/3cFNsH34U9', '_blank');
+        }
+        function openGithub() {
+            window.open('https://github.com/AxMilin/AGarden-Bot', '_blank');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAllData();
+            setInterval(fetchAllData, 120000); // Refresh every 2 minutes
+        });
+    </script>
+</body>
+</html>

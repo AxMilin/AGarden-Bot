@@ -460,10 +460,13 @@ s0.parentNode.insertBefore(s1,s0);
                     <img src="icon.png" alt="Bot Icon" width="40" height="40" style="border-radius: 50%;">
                     <a href="/"><span>AGarden Bot</span></a>
                 </div>
-                <a href="#" class="btn" onclick="addToDiscord()">
-                    <span>🔗</span>
-                    Add to Discord
-                </a>
+                <nav class="nav">
+                    <a href="/stock" style="padding: 1.5rem;" > Live Stocks</a>
+                    <a href="#" class="btn" onclick="addToDiscord()" >
+                        <span>🔗</span>
+                        Add to Discord
+                    </a>
+                </nav>
             </nav>
         </div>
     </header>
@@ -503,6 +506,7 @@ s0.parentNode.insertBefore(s1,s0);
             </div>
             
             <div id="stockGrid" class="stock-grid" style="display: none;"></div>
+            <a href="/stock" class="btn btn-secondary" style="margin-top: 1.5rem;"> View Full Stock</a>
         </div>
     </section>
 
@@ -639,10 +643,16 @@ s0.parentNode.insertBefore(s1,s0);
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
+                    <h3>Quick Links </h3>
                     <div class="footer-links">
-                        <a href="#" onclick="addToDiscord()">Add to Discord</a>
-                        <a href="#" onclick="openSupportServer()">Support Server</a>
+                        <a href="/stock">Live Stocks</a>
+                        <a href="#" onclick="addToDiscord()">Add Bot to Discord</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support </h3>
+                    <div class="footer-links">
                         <a href="/tos">Term Of Service</a>
                         <a href="/privpolicy">Privacy Policy</a>
                     </div>
@@ -710,7 +720,7 @@ s0.parentNode.insertBefore(s1,s0);
                     });
                 });
 
-                stockItems = allItems;
+                stockItems = allItems.slice(0, 6);
                 lastUpdate = new Date();
                 
                 updateStockDisplay();

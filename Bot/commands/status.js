@@ -18,7 +18,7 @@ module.exports = {
         const ramUsageMB = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
         const apiLatency = Date.now() - interaction.createdTimestamp;
         const wsLatency = client.ws.ping;
-        const bridgelatency = await pingBridge();
+        const bridgePing = await pingBridge();
 
         // --- Data that can be fetched locally (as it's usually global or doesn't need aggregation) ---
         const stockServers = await Channel.distinct('serverId', { type: 'stock' });

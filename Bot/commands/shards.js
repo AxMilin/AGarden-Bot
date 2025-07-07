@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { SHARD_LIST } = require('discord-hybrid-sharding').getInfo();
+const { BRIDGE_HOST, BRIDGE_PORT } = require('../config'); // Your config file with bridge info
 
-// Helper to format uptime nicely
 function formatUptime(seconds) {
     const d = Math.floor(seconds / (3600 * 24));
     const h = Math.floor((seconds % (3600 * 24)) / 3600);
@@ -16,7 +16,7 @@ module.exports = {
         .setDescription('Shows status for all bot shards, paginated.'),
     async execute(interaction, client) {
         await interaction.deferReply();
-        
+
         const shardId = SHARD_LIST.join(',');
         const cluster_Id = client.cluster?.id;
         const currentShardId = interaction.guild ? interaction.guild.shardId : SHARD_LIST.join(',');
@@ -26,19 +26,53 @@ module.exports = {
         let shardData = [];
 
         try {
-            const results = await client.cluster.broadcastEval(c => {
-                const shardIds = c.cluster?.shardList ?? [];
+            // Inject pingBridge into each shard's eval
+            const results = await client.cluster.broadcastEval(
+                async (c, { host, port }) => {
+                    const net = require('net');
 
-                return {
-                    clusterId: c.cluster.id,
-                    shardIds,
-                    guildsSize: c.guilds.cache.size,
-                    usersCount: c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
-                    wsPing: c.ws.ping,
-                    processUptime: process.uptime(),
-                    processRamUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-                };
-            });
+                    async function pingBridge(host, port, timeout = 3000) {
+                        return new Promise((resolve) => {
+                            const start = Date.now();
+                            const socket = new net.Socket();
+
+                            socket.setTimeout(timeout);
+
+                            socket.on('connect', () => {
+                                const latency = Date.now() - start;
+                                socket.destroy();
+                                resolve(latency);
+                            });
+
+                            socket.on('timeout', () => {
+                                socket.destroy();
+                                resolve('Timeout');
+                            });
+
+                            socket.on('error', () => {
+                                socket.destroy();
+                                resolve('Error');
+                            });
+
+                            socket.connect(port, host);
+                        });
+                    }
+
+                    const ping = await pingBridge(host, port);
+
+                    return {
+                        clusterId: c.cluster.id,
+                        shardIds: c.cluster?.shardList ?? [],
+                        guildsSize: c.guilds.cache.size,
+                        usersCount: c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
+                        wsPing: c.ws.ping,
+                        processUptime: process.uptime(),
+                        processRamUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+                        bridgePing: ping,
+                    };
+                },
+                { context: { host: BRIDGE_HOST, port: BRIDGE_PORT } }
+            );
 
             shardData = results.filter(Boolean).map(res => ({
                 clusterId: res.clusterId,
@@ -48,6 +82,7 @@ module.exports = {
                 ping: res.wsPing,
                 uptime: res.processUptime,
                 ram: res.processRamUsage,
+                bridgePing: res.bridgePing,
             }));
         } catch (error) {
             console.error('Error fetching shard data for /shards command:', error);
@@ -79,23 +114,24 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setTitle(`📊 Bot Shard Status (Page ${page + 1}/${totalPages})`)
                 .setColor(0x00AE86)
-                .setDescription('Information about each active bot shard.')
-				
+                .setDescription('Information about each active bot shard.');
+
             shardsOnPage.forEach(shard => {
                 embed.addFields({
                     name: `Cluster ${shard.clusterId} (Shards: ${shard.shardIds.length > 0 ? shard.shardIds.join(', ') : 'N/A or connecting'})`,
                     value: `**Guilds:** ${shard.guilds}
 **Users:** ${shard.users}
 **Ping:** ${shard.ping}ms
+**Bridge Ping:** ${typeof shard.bridgePing === 'number' ? shard.bridgePing + 'ms' : shard.bridgePing}
 **Uptime:** ${formatUptime(shard.uptime)}
 **RAM:** ${shard.ram} MB`,
                     inline: false
                 });
             });
-            embed
-           		.setFooter({ text: `Command executed on Shard ${currentShardId} (Cluster ${cluster_Id})` })
-                .setTimestamp();
 
+            embed
+                .setFooter({ text: `Command executed on Shard ${currentShardId} (Cluster ${cluster_Id})` })
+                .setTimestamp();
 
             return embed;
         };
@@ -147,7 +183,7 @@ module.exports = {
         collector.on('end', () => {
             const disabledButtons = getPaginationButtons(currentPage);
             disabledButtons.components.forEach(button => button.setDisabled(true));
-            replyMessage.edit({ components: [disabledButtons] }).catch(() => {});
+            replyMessage.edit({ components: [disabledButtons] }).catch(() => { });
         });
     },
 };

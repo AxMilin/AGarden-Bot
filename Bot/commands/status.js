@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { SHARD_LIST, TOTAL_SHARDS } = require('discord-hybrid-sharding').getInfo();
+const { pingBridge } = require('../utils/api');
 
 const Channel = require('../models/Channel');
 const Notify = require('../models/Notify');
@@ -17,6 +18,7 @@ module.exports = {
         const ramUsageMB = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
         const apiLatency = Date.now() - interaction.createdTimestamp;
         const wsLatency = client.ws.ping;
+        const bridgelatency = await pingBridge();
 
         // --- Data that can be fetched locally (as it's usually global or doesn't need aggregation) ---
         const stockServers = await Channel.distinct('serverId', { type: 'stock' });
@@ -87,6 +89,7 @@ module.exports = {
                 { name: '🌐 Total Servers', value: `${totalGuilds}`, inline: true },
                 { name: '👥 Total Users', value: `${totalUsers}`, inline: true },
                 { name: '⚡ Latency', value: `Avg. Bot WS: ${avgWsLatency}ms\nAPI: ${apiLatency}ms (Local)`, inline: true },
+                { name: '🌉 Bridge Ping', value: typeof bridgePing === 'number' ? `${bridgePing}ms` : 'Unavailable', inline: true },
                 { name: '⏳ Uptime', value: totalUptimeStr, inline: true },
                 { name: '🧠 Total RAM Usage', value: `${totalRamUsageMB} MB`, inline: true },
                 { name: '📦 Notif Servers (Stock/Weather/Egg)', value: `${stockServers.length} / ${weatherServers.length} / ${eggServers.length}`, inline: true },

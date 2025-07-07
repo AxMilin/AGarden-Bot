@@ -1,49 +1,7 @@
 const Notify = require('../models/Notify'); // Your model for user DM preferences
 const { fetchStockData } = require('../utils/api'); // Function to fetch stock data
 const { SeedsEmoji, GearEmoji, EggEmoji } = require('../utils/helpers'); 
-const Lock = require('../models/Lock'); // Adjust path as needed
-
-async function acquireLock(lockName, lockTimeoutMs) {
-  const now = new Date();
-  const expiresAt = new Date(now.getTime() + lockTimeoutMs);
-
-  const updateResult = await Lock.findOneAndUpdate(
-    {
-      name: lockName,
-      $or: [
-        { expiresAt: { $lt: now } },  // expired lock
-        { expiresAt: null }           // no expiry set
-      ]
-    },
-    {
-      $set: {
-        lockedAt: now,
-        expiresAt
-      }
-    },
-    {
-      new: true
-    }
-  );
-
-  if (updateResult) {
-    return true; // Lock updated (acquired)
-  }
-
-  try {
-    await Lock.create({
-      name: lockName,
-      lockedAt: now,
-      expiresAt
-    });
-    return true; // Lock created
-  } catch (err) {
-    if (err.code === 11000) {
-      return false; // Duplicate lock
-    }
-    throw err;
-  }
-}
+const { acquireLock } = require('../utils/mongo'); // Your config file with bridge info
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 

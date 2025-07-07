@@ -1,41 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const Channel = require('../models/Channel');
-const Lock = require('../models/Lock');
 const { fetchWeatherData } = require('../utils/api');
-
-async function acquireLock(lockName, lockTimeoutMs) {
-    const now = new Date();
-    const expiresAt = new Date(now.getTime() + lockTimeoutMs);
-
-    const updateResult = await Lock.findOneAndUpdate(
-        {
-            name: lockName,
-            $or: [
-                { expiresAt: { $lt: now } },
-                { expiresAt: null }
-            ]
-        },
-        {
-            $set: {
-                lockedAt: now,
-                expiresAt
-            }
-        },
-        {
-            new: true
-        }
-    );
-
-    if (updateResult) return true;
-
-    try {
-        await Lock.create({ name: lockName, lockedAt: now, expiresAt });
-        return true;
-    } catch (err) {
-        if (err.code === 11000) return false;
-        throw err;
-    }
-}
+const { acquireLock } = require('../utils/mongo'); // Your config file with bridge info
 
 const LOCK_NAME = 'weather_stock_notification';
 const LOCK_TIMEOUT_MS = 2 * 60 * 1000;

@@ -2,52 +2,7 @@ const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('
 const Channel = require('../models/Channel'); // Assuming this is your Mongoose model
 const { fetchStockData } = require('../utils/api'); // Assuming this fetches global stock data
 const { capitalize, categoryEmojis, SeedsEmoji, GearEmoji } = require('../utils/helpers');
-const Lock = require('../models/Lock');
-
-async function acquireLock(lockName, lockTimeoutMs) {
-  const now = new Date();
-  const expiresAt = new Date(now.getTime() + lockTimeoutMs);
-
-  // Try update first
-  const updateResult = await Lock.findOneAndUpdate(
-    {
-      name: lockName,
-      $or: [
-        { expiresAt: { $lt: now } },  // expired lock
-        { expiresAt: null }          // no expiry set
-      ]
-    },
-    {
-      $set: {
-        lockedAt: now,
-        expiresAt
-      }
-    },
-    {
-      new: true
-    }
-  );
-
-  if (updateResult) {
-    return true; // Lock updated (acquired)
-  }
-
-  // Try insert if no lock was available to update
-  try {
-    await Lock.create({
-      name: lockName,
-      lockedAt: now,
-      expiresAt
-    });
-    return true; // Lock created
-  } catch (err) {
-    if (err.code === 11000) {
-      // Duplicate means another process created it first
-      return false;
-    }
-    throw err; // Unexpected error
-  }
-}
+const { acquireLock } = require('../utils/mongo'); // Your config file with bridge info
 
 const LOCK_NAME = 'seeds_stock_notification';
 const LOCK_TIMEOUT_MS = 2 * 60 * 1000; // 2 minutes lock to cover the job duration

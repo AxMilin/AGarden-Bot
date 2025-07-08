@@ -34,7 +34,7 @@ const client = new Client({
 });
 
 client.cluster = new ClusterClient(client); // Corrected: Use the destructured ClusterClient directly
-client.machine = new Shard(client); // Pass the raw discord.js client instance
+client.machine = new Shard(client.cluster); // Pass the raw discord.js client instance
 
 // Store commands in a Collection
 client.commands = new Collection();

@@ -71,7 +71,10 @@ module.exports = {
                         bridgePing: ping,
                     };
                 },
-                { context: { host: BRIDGE_HOST, port: BRIDGE_PORT } }
+                {
+                    context: { host: BRIDGE_HOST, port: BRIDGE_PORT },
+                    cluster: 'all' // <-- THIS makes it go to all machines
+                }
             );
 
             shardData = results.filter(Boolean).map(res => ({

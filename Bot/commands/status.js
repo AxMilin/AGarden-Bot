@@ -46,7 +46,7 @@ module.exports = {
                 wsPing: c.ws.ping,
                 processUptime: process.uptime(),
                 processRamUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
-            }));
+            }), { cluster: 'all' });
 
             // Aggregate the results
             for (const res of results) {

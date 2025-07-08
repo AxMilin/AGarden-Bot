@@ -164,16 +164,11 @@ module.exports = async (client) => {
                                     pingContent = Array.from(rolesToPingSet).join(' '); // Join roles with a space
                                 }
 
-                                // Send the ping content with the first embed and components
-                                // Subsequent embeds are sent without content or components
-                                for (let j = 0; j < stockEmbeds.length; j++) {
-                                    const embed = stockEmbeds[j];
-                                    if (j === 0) {
-                                        await ch.send({ content: pingContent, embeds: [embed], components: componentsToSend });
-                                    } else {
-                                        await ch.send({ embeds: [embed] });
-                                    }
-                                }
+                                await ch.send({
+                                    content: pingContent,
+                                    embeds: stockEmbeds,
+                                    components: componentsToSend
+                                });
                                 
                                 // Update lastSentAt in the database
                                 await Channel.updateOne({ serverId, channelId, type: 'stock' }, { lastSentAt: now });

@@ -1,21 +1,14 @@
-const { SlashCommandBuilder, PermissionsBitField, InteractionType } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
-const { gear, GearEmoji } = require('../utils/helpers'); // Only import gear and GearEmoji
+const { gear, GearEmoji } = require('../utils/helpers');
+
+// Function to convert item names to valid Discord option names (lowercase, snake_case)
+const toOptionName = (itemName) => itemName.toLowerCase().replace(/ /g, '_');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('role_gear') // Command name changed to role_gear
-        .setDescription('Assign a role to receive alerts for a specific gear item.')
-        .addStringOption(option =>
-            option.setName('gear_name')
-                .setDescription('The specific gear item to set the alert role for (e.g., Watering Can, Trowel).')
-                .setRequired(true)
-                .setAutocomplete(true))
-        .addRoleOption(option =>
-            option.setName('role')
-                .setDescription('The role to ping for this gear item. Leave empty to remove the role.')
-                .setRequired(false)),
-
+        .setName('role_gear')
+        .setDescription('Assign or remove roles for specific gear item alerts.'),
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
@@ -37,10 +30,6 @@ module.exports = {
             return;
         }
 
-        const itemName = interaction.options.getString('gear_name');
-        const role = interaction.options.getRole('role');
-        const roleId = role ? role.id : null;
-
         const serverId = interaction.guild.id;
         const channelType = 'stock'; // Gear falls under 'stock' type
 
@@ -55,35 +44,48 @@ module.exports = {
             channelDoc.alertRoles = new Map();
         }
 
-        if (!gear.includes(itemName)) {
-            await interaction.editReply({ content: `❌ "${itemName}" is not a valid gear item name.` });
+        let replyMessages = [];
+        let rolesModified = false;
+
+        // Iterate over all possible gear options
+        for (const gearName of gear) {
+            const optionName = toOptionName(gearName);
+            const role = interaction.options.getRole(optionName);
+            const roleId = role ? role.id : null;
+            const itemEmoji = GearEmoji[gearName] || '';
+
+            if (interaction.options.data.some(opt => opt.name === optionName)) {
+                rolesModified = true;
+
+                if (roleId) {
+                    channelDoc.alertRoles.set(gearName, roleId);
+                    replyMessages.push(`✅ ${itemEmoji} **${gearName}** alerts will now ping ${role}.`);
+                } else {
+                    if (channelDoc.alertRoles.has(gearName)) {
+                        channelDoc.alertRoles.delete(gearName);
+                        replyMessages.push(`🗑️ Role for ${itemEmoji} **${gearName}** alerts has been removed.`);
+                    } else {
+                        replyMessages.push(`ℹ️ No role was set for ${itemEmoji} **${gearName}** alerts to begin with.`);
+                    }
+                }
+            }
+        }
+
+        if (!rolesModified) {
+            await interaction.editReply({ content: 'ℹ️ No gear roles were specified. Please select one or more gear options to modify.' });
             return;
         }
 
-        const itemEmoji = GearEmoji[itemName] || '';
-
-        if (roleId) {
-            channelDoc.alertRoles.set(itemName, roleId);
-            await channelDoc.save();
-            await interaction.editReply({ content: `✅ Successfully set ${itemEmoji} **${itemName}** alerts to ping ${role}.` });
-        } else {
-            if (channelDoc.alertRoles.has(itemName)) {
-                channelDoc.alertRoles.delete(itemName);
-                await channelDoc.save();
-                await interaction.editReply({ content: `🗑️ Successfully removed role for ${itemEmoji} **${itemName}** alerts.` });
-            } else {
-                await interaction.editReply({ content: `ℹ️ No role was set for ${itemEmoji} **${itemName}** alerts to begin with.` });
-            }
-        }
-    },
-
-    async autocomplete(interaction) {
-        const focusedOption = interaction.options.getFocused(true);
-        const filtered = gear.filter(item =>
-            item.toLowerCase().startsWith(focusedOption.value.toLowerCase())
-        );
-        await interaction.respond(
-            filtered.map(choice => ({ name: choice, value: choice })).slice(0, 25)
-        );
+        await channelDoc.save();
+        await interaction.editReply({ content: replyMessages.join('\n') });
     },
 };
+
+// Dynamically add a RoleOption for each gear item
+for (const item of gear) {
+    module.exports.data.addRoleOption(option =>
+        option.setName(toOptionName(item))
+            .setDescription(`Role for ${item} alerts.`)
+            .setRequired(false)
+    );
+}

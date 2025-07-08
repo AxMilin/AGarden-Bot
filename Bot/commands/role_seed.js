@@ -1,21 +1,14 @@
-const { SlashCommandBuilder, PermissionsBitField, InteractionType } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
-const { seeds, SeedsEmoji } = require('../utils/helpers'); // Only import seeds and SeedsEmoji
+const { seeds, SeedsEmoji } = require('../utils/helpers');
+
+// Function to convert item names to valid Discord option names (lowercase, snake_case)
+const toOptionName = (itemName) => itemName.toLowerCase().replace(/ /g, '_');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('role_seed') // Command name changed to role_seed
-        .setDescription('Assign a role to receive alerts for a specific seed.')
-        .addStringOption(option =>
-            option.setName('seed_name')
-                .setDescription('The specific seed to set the alert role for (e.g., Carrot, Apple).')
-                .setRequired(true)
-                .setAutocomplete(true))
-        .addRoleOption(option =>
-            option.setName('role')
-                .setDescription('The role to ping for this seed. Leave empty to remove the role.')
-                .setRequired(false)),
-
+        .setName('role_seed')
+        .setDescription('Assign or remove roles for specific seed alerts.'),
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
@@ -37,10 +30,6 @@ module.exports = {
             return;
         }
 
-        const itemName = interaction.options.getString('seed_name');
-        const role = interaction.options.getRole('role');
-        const roleId = role ? role.id : null;
-
         const serverId = interaction.guild.id;
         const channelType = 'stock'; // Seeds fall under 'stock' type
 
@@ -55,35 +44,50 @@ module.exports = {
             channelDoc.alertRoles = new Map();
         }
 
-        if (!seeds.includes(itemName)) {
-            await interaction.editReply({ content: `❌ "${itemName}" is not a valid seed name.` });
+        let replyMessages = [];
+        let rolesModified = false;
+
+        // Iterate over all possible seed options
+        for (const seedName of seeds) {
+            const optionName = toOptionName(seedName);
+            const role = interaction.options.getRole(optionName); // Get the role for this specific option
+            const roleId = role ? role.id : null;
+            const itemEmoji = SeedsEmoji[seedName] || '';
+
+            // Check if the user provided a value for this specific seed option
+            if (interaction.options.data.some(opt => opt.name === optionName)) {
+                rolesModified = true; // At least one role option was explicitly provided
+
+                if (roleId) {
+                    channelDoc.alertRoles.set(seedName, roleId);
+                    replyMessages.push(`✅ ${itemEmoji} **${seedName}** alerts will now ping ${role}.`);
+                } else {
+                    // If roleId is null, it means the user cleared the role or didn't select one
+                    if (channelDoc.alertRoles.has(seedName)) {
+                        channelDoc.alertRoles.delete(seedName);
+                        replyMessages.push(`🗑️ Role for ${itemEmoji} **${seedName}** alerts has been removed.`);
+                    } else {
+                        replyMessages.push(`ℹ️ No role was set for ${itemEmoji} **${seedName}** alerts to begin with.`);
+                    }
+                }
+            }
+        }
+
+        if (!rolesModified) {
+            await interaction.editReply({ content: 'ℹ️ No seed roles were specified. Please select one or more seed options to modify.' });
             return;
         }
 
-        const itemEmoji = SeedsEmoji[itemName] || '';
-
-        if (roleId) {
-            channelDoc.alertRoles.set(itemName, roleId);
-            await channelDoc.save();
-            await interaction.editReply({ content: `✅ Successfully set ${itemEmoji} **${itemName}** alerts to ping ${role}.` });
-        } else {
-            if (channelDoc.alertRoles.has(itemName)) {
-                channelDoc.alertRoles.delete(itemName);
-                await channelDoc.save();
-                await interaction.editReply({ content: `🗑️ Successfully removed role for ${itemEmoji} **${itemName}** alerts.` });
-            } else {
-                await interaction.editReply({ content: `ℹ️ No role was set for ${itemEmoji} **${itemName}** alerts to begin with.` });
-            }
-        }
-    },
-
-    async autocomplete(interaction) {
-        const focusedOption = interaction.options.getFocused(true);
-        const filtered = seeds.filter(seed =>
-            seed.toLowerCase().startsWith(focusedOption.value.toLowerCase())
-        );
-        await interaction.respond(
-            filtered.map(choice => ({ name: choice, value: choice })).slice(0, 25)
-        );
+        await channelDoc.save();
+        await interaction.editReply({ content: replyMessages.join('\n') });
     },
 };
+
+// Dynamically add a RoleOption for each seed
+for (const seed of seeds) {
+    module.exports.data.addRoleOption(option =>
+        option.setName(toOptionName(seed))
+            .setDescription(`Role for ${seed} alerts.`)
+            .setRequired(false)
+    );
+}

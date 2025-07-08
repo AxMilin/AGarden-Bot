@@ -1,21 +1,14 @@
-const { SlashCommandBuilder, PermissionsBitField, InteractionType } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
-const { eggs, EggEmoji } = require('../utils/helpers'); // Only import eggs and EggEmoji
+const { eggs, EggEmoji } = require('../utils/helpers');
+
+// Function to convert item names to valid Discord option names (lowercase, snake_case)
+const toOptionName = (itemName) => itemName.toLowerCase().replace(/ /g, '_');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('role_egg') // Command name changed to role_egg
-        .setDescription('Assign a role to receive alerts for a specific egg.')
-        .addStringOption(option =>
-            option.setName('egg_name')
-                .setDescription('The specific egg to set the alert role for (e.g., Common Egg, Rare Egg).')
-                .setRequired(true)
-                .setAutocomplete(true))
-        .addRoleOption(option =>
-            option.setName('role')
-                .setDescription('The role to ping for this egg. Leave empty to remove the role.')
-                .setRequired(false)),
-
+        .setName('role_egg')
+        .setDescription('Assign or remove roles for specific egg alerts.'),
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
@@ -37,10 +30,6 @@ module.exports = {
             return;
         }
 
-        const itemName = interaction.options.getString('egg_name');
-        const role = interaction.options.getRole('role');
-        const roleId = role ? role.id : null;
-
         const serverId = interaction.guild.id;
         const channelType = 'egg'; // Eggs fall under 'egg' type
 
@@ -55,35 +44,48 @@ module.exports = {
             channelDoc.alertRoles = new Map();
         }
 
-        if (!eggs.includes(itemName)) {
-            await interaction.editReply({ content: `❌ "${itemName}" is not a valid egg name.` });
+        let replyMessages = [];
+        let rolesModified = false;
+
+        // Iterate over all possible egg options
+        for (const eggName of eggs) {
+            const optionName = toOptionName(eggName);
+            const role = interaction.options.getRole(optionName);
+            const roleId = role ? role.id : null;
+            const itemEmoji = EggEmoji[eggName] || '';
+
+            if (interaction.options.data.some(opt => opt.name === optionName)) {
+                rolesModified = true;
+
+                if (roleId) {
+                    channelDoc.alertRoles.set(eggName, roleId);
+                    replyMessages.push(`✅ ${itemEmoji} **${eggName}** alerts will now ping ${role}.`);
+                } else {
+                    if (channelDoc.alertRoles.has(eggName)) {
+                        channelDoc.alertRoles.delete(eggName);
+                        replyMessages.push(`🗑️ Role for ${itemEmoji} **${eggName}** alerts has been removed.`);
+                    } else {
+                        replyMessages.push(`ℹ️ No role was set for ${itemEmoji} **${eggName}** alerts to begin with.`);
+                    }
+                }
+            }
+        }
+
+        if (!rolesModified) {
+            await interaction.editReply({ content: 'ℹ️ No egg roles were specified. Please select one or more egg options to modify.' });
             return;
         }
 
-        const itemEmoji = EggEmoji[itemName] || '';
-
-        if (roleId) {
-            channelDoc.alertRoles.set(itemName, roleId);
-            await channelDoc.save();
-            await interaction.editReply({ content: `✅ Successfully set ${itemEmoji} **${itemName}** alerts to ping ${role}.` });
-        } else {
-            if (channelDoc.alertRoles.has(itemName)) {
-                channelDoc.alertRoles.delete(itemName);
-                await channelDoc.save();
-                await interaction.editReply({ content: `🗑️ Successfully removed role for ${itemEmoji} **${itemName}** alerts.` });
-            } else {
-                await interaction.editReply({ content: `ℹ️ No role was set for ${itemEmoji} **${itemName}** alerts to begin with.` });
-            }
-        }
-    },
-
-    async autocomplete(interaction) {
-        const focusedOption = interaction.options.getFocused(true);
-        const filtered = eggs.filter(egg =>
-            egg.toLowerCase().startsWith(focusedOption.value.toLowerCase())
-        );
-        await interaction.respond(
-            filtered.map(choice => ({ name: choice, value: choice })).slice(0, 25)
-        );
+        await channelDoc.save();
+        await interaction.editReply({ content: replyMessages.join('\n') });
     },
 };
+
+// Dynamically add a RoleOption for each egg
+for (const egg of eggs) {
+    module.exports.data.addRoleOption(option =>
+        option.setName(toOptionName(egg))
+            .setDescription(`Role for ${egg} alerts.`)
+            .setRequired(false)
+    );
+}

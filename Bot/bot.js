@@ -1,5 +1,5 @@
 const { Shard } = require('discord-cross-hosting');
-const { Cluster, getInfo } = require('discord-hybrid-sharding');
+const { ClusterClient, getInfo } = require('discord-hybrid-sharding');
 const { Client, GatewayIntentBits, Partials, REST, Routes, Collection } = require('discord.js');
 const mongoose = require('mongoose');
 const fs = require('node:fs');
@@ -29,11 +29,11 @@ const client = new Client({
     partials: [
         Partials.Channel                     // required to receive DMs (if you send DM notifs)
     ],
-    shards: Cluster.data.SHARD_LIST,
-    shardCount: Cluster.data.TOTAL_SHARDS,
+    shards: getInfo().SHARD_LIST,
+    shardCount: getInfo().TOTAL_SHARDS,
 });
 
-client.cluster = new Cluster.Client(client); // Corrected: Use the destructured ClusterClient directly
+client.cluster = new ClusterClient(client); // Corrected: Use the destructured ClusterClient directly
 client.machine = new Shard(client.cluster); // Pass the raw discord.js client instance
 
 // Store commands in a Collection

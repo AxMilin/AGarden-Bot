@@ -3,11 +3,11 @@ const Channel = require('../models/Channel');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('setup')
-        .setDescription('Setup notifications for stocks, eggs, or weather in this channel.')
+        .setName('alert_set')
+        .setDescription('Set up alerts for stocks, eggs, or weather in this channel.')
         .addStringOption(option =>
             option.setName('type')
-                .setDescription('The type of notification to set up.')
+                .setDescription('The type of alert to set up.')
                 .setRequired(true)
                 .addChoices(
                     { name: 'Stocks', value: 'stock' },
@@ -43,12 +43,12 @@ module.exports = {
 
         if (existing?.channelId === channelId) {
             await Channel.deleteOne({ serverId, type, channelId });
-            await interaction.editReply({ content: `❌ ${type} notifications removed from this channel.` });
+            await interaction.editReply({ content: `❌ ${type} alerts removed from this channel.` });
             return;
         }
 
         if (existing && existing.channelId !== channelId) {
-            await interaction.editReply({ content: `⚠️ ${type} notifications are already set up in <#${existing.channelId}>. Remove them there first.` });
+            await interaction.editReply({ content: `⚠️ ${type} alerts are already set up in <#${existing.channelId}>. Remove them there first.` });
             return;
         }
 
@@ -58,6 +58,6 @@ module.exports = {
             { upsert: true, new: true }
         );
 
-        await interaction.editReply({ content: `✅ Setup complete! You’ll now receive ${type} notifications here.` });
+        await interaction.editReply({ content: `✅ Setup complete! You’ll now receive ${type} alerts here.` });
     },
 };

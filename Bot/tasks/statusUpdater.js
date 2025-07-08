@@ -52,7 +52,7 @@ async function updateBotStatus(client) {
                 wsPing: wsPing,
                 active: true // Indicate this shard is active
             };
-        }, { cluster: 'all' });
+        });
 
         // Filter out any null/undefined results from unresponsive shards
         const activeResults = results.filter(res => res && res.active);

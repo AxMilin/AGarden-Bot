@@ -1,9 +1,9 @@
 const { Client } = require('discord-cross-hosting');
 const { ClusterManager } = require('discord-hybrid-sharding'); // <--- THIS LINE IS THE FIX
-const { CROSS_HOST_AUTH_TOKEN, BRIDGE_PORT, BRIDGE_HOST } = require('./config');
+const { CROSS_HOST_AUTH_TOKEN, BRIDGE_PORT, BRIDGE_HOST, AGENT } = require('./config');
 
 const client = new Client({
-    agent: 'FELIX-1',
+    agent: AGENT,
     host: BRIDGE_HOST, // Domain without https
     port: BRIDGE_PORT, // Proxy Connection (Replit) needs Port 443
     // handshake: true, When Replit or any other Proxy is used

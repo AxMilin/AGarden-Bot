@@ -134,13 +134,15 @@ client.once('ready', () => {
     startSyncedInterval(eggNotifier, 30 * 60 * 1000, client);
     
     startSyncedInterval(updateBotStatus, 30 * 1000, client);
+});
 
-    try {
-        const results = client.machine.broadcastEval('this.guilds.cache.size');
-        console.log(results);
-    } catch (e) {
-        console.log(e);
-    }
+client.on('ready', () => {
+    client.machine
+        .broadcastEval(`this.guilds.cache.size`)
+        .then(results => {
+            console.log(results);
+        })
+        .catch(e => console.log(e)); // broadcastEval() over all cross-hosted clients
 });
 
 // Bot Login

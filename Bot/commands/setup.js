@@ -1,10 +1,19 @@
-const { SlashCommandBuilder, PermissionsBitField } = require('discord.js'); // Import PermissionsBitField
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('setup_stocks')
-        .setDescription('Setup stock notifier in this channel'),
+        .setName('setup')
+        .setDescription('Setup notifications for stocks, eggs, or weather in this channel.')
+        .addStringOption(option =>
+            option.setName('type')
+                .setDescription('The type of notification to set up.')
+                .setRequired(true)
+                .addChoices(
+                    { name: 'Stocks', value: 'stock' },
+                    { name: 'Eggs', value: 'egg' },
+                    { name: 'Weather', value: 'weather' }
+                )),
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: true });
 
@@ -13,21 +22,20 @@ module.exports = {
             return;
         }
 
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) { // Use PermissionsBitField.Flags
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageChannels)) {
             await interaction.editReply({ content: '❌ You need the **Manage Channels** permission to use this command.' });
             return;
         }
 
-        // Check if the bot has permission to send messages in the channel
         const botMember = interaction.guild.members.me;
         const channelPermissions = interaction.channel.permissionsFor(botMember);
 
-        if (!channelPermissions.has(PermissionsBitField.Flags.SendMessages)) { // Use PermissionsBitField.Flags
+        if (!channelPermissions.has(PermissionsBitField.Flags.SendMessages)) {
             await interaction.editReply({ content: '❌ I do not have permission to send messages in this channel. Please grant me the **Send Messages** permission.' });
             return;
         }
 
-        const type = 'stock';
+        const type = interaction.options.getString('type');
         const serverId = interaction.guild.id;
         const channelId = interaction.channelId;
 

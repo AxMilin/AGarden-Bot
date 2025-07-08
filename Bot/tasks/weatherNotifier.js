@@ -36,7 +36,7 @@ module.exports = async (client) => {
         }
 
         const weatherEmbed = new EmbedBuilder()
-            .setDescription('# 🌦️ Current Weather Status')
+            .setDescription('## 🌦️ Current Weather Status')
             .setColor(0x1E90FF)
             .setTimestamp();
 

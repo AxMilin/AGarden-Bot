@@ -16,7 +16,7 @@ module.exports = {
         }
 
         const embed = new EmbedBuilder()
-            .setDescription('# ⏰ Restock Times')
+            .setDescription('## ⏰ Restock Times')
             .setColor(0xFFA500)
             .setTimestamp();
 

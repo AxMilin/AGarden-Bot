@@ -91,9 +91,8 @@ async function updateBotStatus(client) {
 
         // Get the current status text from the array and then increment the index
         // The modulo operator ensures it wraps around to 0 when it reaches the end of the array.
-        const statusText = statusMessages[currentStatusIndex];
-        currentStatusIndex = (currentStatusIndex + 1) % statusMessages.length;
-
+        const statusText = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+        
         // Set the bot's activity (presence)
         // ActivityType.Watching is a common choice for status messages.
         await client.user.setActivity(statusText, { type: ActivityType.Watching });

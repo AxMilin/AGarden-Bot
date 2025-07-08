@@ -23,9 +23,9 @@ module.exports = {
                 .setTimestamp();
 
             if (activeWeatherEvents.length === 0) {
-                embed.setDescription('🌤️ There are no active weather events at the moment.');
+                embed.setDescription('## 🌤️ There are no active weather events at the moment.');
             } else {
-                embed.setDescription('🌦️ **Current Active Weather Events:**');
+                embed.setDescription('## 🌦️ **Current Active Weather Events:**');
                 for (const event of activeWeatherEvents) {
                     const emoji = event.emoji || '❓';
                     const name = event.displayName || 'Unknown';

@@ -43,7 +43,7 @@ module.exports = {
                 }
 
                 const embed = new EmbedBuilder()
-                    .setDescription(`# ${categoryEmojis[categoriesToProcess.emojiKey] || ''} ${capitalize(key)} Stock`) // Use the defined emoji and display name
+                    .setDescription(`## ${categoryEmojis[categoriesToProcess.emojiKey] || ''} ${capitalize(key)} Stock`) // Use the defined emoji and display name
                     .setColor(0x00AE86)
                     .setTimestamp();
 

@@ -32,7 +32,7 @@ const eggs = [
   'Bug Egg',
   'Common Summer Egg',
   'Rare Summer Egg',
-  'Paradise Summer Egg',
+  'Paradise Egg',
   'Bee Egg',
 ];
 
@@ -100,7 +100,7 @@ const EggEmoji = {
   'Bug Egg': '🐛',             // bug
   'Common Summer Egg': '🟡',   // sunny summer vibe
   'Rare Summer Egg': '🔵',     // beach/rare summer
-  'Paradise Summer Egg': '🌞', // tropical paradise
+  'Paradise Egg': '🌞', // tropical paradise
   'Bee Egg': '🐝',
 };
 

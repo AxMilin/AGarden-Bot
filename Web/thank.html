@@ -154,9 +154,9 @@ s0.parentNode.insertBefore(s1,s0);
                 </div>
                 <nav class="nav">
                     <a href="/stock" style="padding: 1.5rem;" > Live Stocks</a>
-                    <a href="#" class="btn" onclick="addToDiscord()" >
+                    <a href="#" class="btn" onclick="openSupportServer()" >
                         <span>🔗</span>
-                        Add to Discord
+                        Discord Server
                     </a>
                 </nav>
             </nav>
@@ -178,6 +178,14 @@ s0.parentNode.insertBefore(s1,s0);
   </footer>
   
   <script>
+      function openSupportServer() {
+          window.open('https://discord.gg/3cFNsH34U9', '_blank');
+      }
+
+    window.onload = function() {
+      openSupportServer()
+    };
+    
     let timeLeft = 10;
     const timerEl = document.getElementById('timer');
 

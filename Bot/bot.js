@@ -29,8 +29,8 @@ const client = new Client({
     partials: [
         Partials.Channel                     // required to receive DMs (if you send DM notifs)
     ],
-    shards: Cluster.shardList, // An Array of Shard list, which will get spawned
-    shardCount: Cluster.totalShards, // The Number of Total Shards
+    shards: getInfo().SHARD_LIST,
+    shardCount: getInfo().TOTAL_SHARDS,
 });
 
 client.cluster = new Cluster.Client(client); // Corrected: Use the destructured ClusterClient directly

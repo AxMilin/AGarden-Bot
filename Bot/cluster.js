@@ -1,5 +1,5 @@
 const { Client } = require('discord-cross-hosting');
-const { ClusterManager } = require('discord-hybrid-sharding'); // <--- THIS LINE IS THE FIX
+const Cluster = require('discord-hybrid-sharding');
 const { CROSS_HOST_AUTH_TOKEN, BRIDGE_PORT, BRIDGE_HOST, AGENT } = require('./config');
 
 const client = new Client({
@@ -29,7 +29,7 @@ async function connectToBridge(retryDelay = 3000) {
 }
 
 // Initialize the ClusterManager
-const manager = new ClusterManager(`${__dirname}/bot.js`, {
+const manager = new Cluster.Manager(`${__dirname}/bot.js`, {
     totalShards: 5,
     totalClusters: 'auto',
     restarts: {

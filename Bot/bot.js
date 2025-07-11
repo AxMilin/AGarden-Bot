@@ -137,11 +137,9 @@ client.once('ready', () => {
 });
 
 client.on('ready', () => {
-    client.cluster.broadcastEval(c => c.guilds.cache.size)
-        .then(results => {
-            console.log('Total guilds:', results.reduce((a, b) => a + b, 0));
-        })
-        .catch(console.error);
+    client.cluster
+        .broadcastEval(c => c.guilds.cache.size)
+        .then(results => console.log(`${results.reduce((prev, val) => prev + val, 0)} total guilds`));
 });
 
 // Bot Login

@@ -137,12 +137,11 @@ client.once('ready', () => {
 });
 
 client.on('ready', () => {
-    client.machine
-        .broadcastEval(`cliend.guilds.cache.size`)
+    client.cluster.broadcastEval(c => c.guilds.cache.size)
         .then(results => {
-            console.log(results);
+            console.log('Total guilds:', results.reduce((a, b) => a + b, 0));
         })
-        .catch(e => console.log(e)); // broadcastEval() over all cross-hosted clients
+        .catch(console.error);
 });
 
 // Bot Login

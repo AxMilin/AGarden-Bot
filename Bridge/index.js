@@ -17,6 +17,11 @@ server.start();
 server.on('ready', url => {
     console.log('Server is ready' + url);
     setInterval(() => {
-        server.broadcastEval('cliend.guilds.cache.size').then(console.log).catch(console.log);
+    server.broadcastEval(c => c.guilds.cache.size)
+        .then(results => {
+            const total = results.reduce((a, b) => a + b, 0);
+            console.log(`Total guilds: ${total}`);
+        })
+        .catch(console.error);
     }, 10000);
 });

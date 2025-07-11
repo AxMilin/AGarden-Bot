@@ -17,14 +17,12 @@ server.start();
 server.on('ready', url => {
     console.log('Server is ready' + url);
     setInterval(() => {
-    setTimeout(() => {
-    server.broadcastEval(c => c.guilds.cache.size)
-        .then(results => {
-        console.log('Guild counts per machine:', results);
-        const total = results.reduce((acc, val) => acc + val, 0);
-        console.log('Total guilds across all machines:', total);
-        })
-        .catch(console.error);
-    }, 30000); // wait 30 seconds after bridge start
+        server.broadcastEval(c => c.guilds.cache.size)
+            .then(results => {
+            console.log('Guild counts per machine:', results);
+            const total = results.reduce((acc, val) => acc + val, 0);
+            console.log('Total guilds across all machines:', total);
+            })
+            .catch(console.error);
     }, 10000);
 });

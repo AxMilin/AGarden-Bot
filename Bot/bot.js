@@ -138,7 +138,7 @@ client.once('ready', () => {
 
 client.on('ready', () => {
     client.machine
-        .broadcastEval(`this.guilds.cache.size`)
+        .broadcastEval(`cliend.guilds.cache.size`)
         .then(results => {
             console.log(results);
         })

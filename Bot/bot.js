@@ -138,11 +138,8 @@ client.once('ready', () => {
 
 client.on('ready', () => {
     client.machine
-        .broadcastEval(`this.guilds.cache.size`)
-        .then(results => {
-            console.log(results);
-        })
-        .catch(e => console.log(e)); // broadcastEval() over all cross-hosted clients
+        .broadcastEval(c => c.guilds.cache.size)
+        .then(results => console.log(`${results.reduce((prev, val) => prev + val, 0)} total guilds`));
 });
 
 // Bot Login

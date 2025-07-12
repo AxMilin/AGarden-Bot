@@ -39,7 +39,7 @@ async function updateBotStatus(client) {
     try {
         // Use client.cluster.broadcastEval to execute code on all managed clusters/shards.
         // This gathers relevant data (guilds, users, ping) from each active shard.
-        const results = await client.cluster.broadcastEval(c => {
+        const results = await client.machine.broadcastEval(c => {
             // Optional chaining (?.) and nullish coalescing (||) for robustness
             // in case client.shard or client.guilds.cache isn't fully initialized.
             const guildsCacheSize = c.guilds.cache?.size || 0;

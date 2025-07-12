@@ -27,7 +27,7 @@ module.exports = {
 
         try {
             // Inject pingBridge into each shard's eval
-            const results = await client.cluster.broadcastEval(
+            const results = await client.machine.broadcastEval(
                 async (c, { host, port }) => {
                     const net = require('net');
 

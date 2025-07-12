@@ -40,7 +40,7 @@ module.exports = {
         let results = []; // Declare results here, initialize as an empty array
 
         try {
-            results = await client.cluster.broadcastEval(c => ({
+            results = await client.machine.broadcastEval(c => ({
                 guildsSize: c.guilds.cache.size,
                 usersCount: c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
                 wsPing: c.ws.ping,
@@ -83,7 +83,7 @@ module.exports = {
 
 
         const embed = new EmbedBuilder()
-            .setTitle('🤖 Bot Status (Aggregated)')
+            .setTitle('🤖 Bot Status')
             .setColor(0x00AE86)
             .addFields(
                 { name: '🌐 Total Servers', value: `${totalGuilds}`, inline: true },

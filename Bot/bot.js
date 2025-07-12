@@ -137,9 +137,11 @@ client.once('ready', () => {
 });
 
 client.on('ready', () => {
-    client.machine
-        .broadcastEval(c => c.guilds.cache.size)
-        .then(results => console.log(`${results.reduce((prev, val) => prev + val, 0)} total guilds`));
+    setInterval(() => {
+        client.machine
+            .broadcastEval(c => c.guilds.cache.size)
+            .then(results => console.log(`${results.reduce((prev, val) => prev + val, 0)} total guilds`));
+    }, 10000);
 });
 
 // Bot Login

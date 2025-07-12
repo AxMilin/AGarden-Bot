@@ -137,7 +137,7 @@ client.once('ready', () => {
 });
 
 client.on('ready', () => {
-    client.cluster
+    client.machine
         .broadcastEval(c => c.guilds.cache.size)
         .then(results => console.log(`${results.reduce((prev, val) => prev + val, 0)} total guilds`));
 });

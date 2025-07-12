@@ -69,13 +69,13 @@ async function updateBotStatus(client) {
 
         // Define an array of status messages to cycle through
         const statusMessages = [
-            `📡 Serving ${totalGuilds} servers!`,                 
-            `⚙️ Handling ${totalGuilds} servers!`,               
-            `👀 Watching ${totalUsers} members!`,
-            `🔔 Notifying ${totalGuilds} servers!`,                 
-            `📨 Notifying ${totalUsers} members!`,              
+            //`📡 Serving ${totalGuilds} servers!`,                 
+            //`⚙️ Handling ${totalGuilds} servers!`,               
+            //`👀 Watching ${totalUsers} members!`,
+            //`🔔 Notifying ${totalGuilds} servers!`,                 
+            //`📨 Notifying ${totalUsers} members!`,              
             `🏓 Ping: ${avgPing}ms`,                             
-            `🧩 Shards: ${activeResults.length}/${totalConfiguredShards}`, 
+            //`🧩 Shards: ${activeResults.length}/${totalConfiguredShards}`, 
             `⏱️ Uptime: ${formatUptime(process.uptime())}`, 
             `👨‍💻 Developed by AGarden Bot Team`,
 

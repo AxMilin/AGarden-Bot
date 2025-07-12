@@ -5,7 +5,8 @@ const seeds = [
     'Carrot', 'Strawberry', 'Blueberry', 'Orange Tulip', 'Tomato',
     'Corn', 'Daffodil', 'Watermelon', 'Pumpkin', 'Apple', 'Bamboo',
     'Coconut', 'Cactus', 'Dragon Fruit', 'Mango', 'Grape', 'Mushroom',
-    'Pepper', 'Cacao', 'Beanstalk', 'Ember Lily', 'Sugar Apple', 'Burning Bud'
+    'Pepper', 'Cacao', 'Beanstalk', 'Ember Lily', 'Sugar Apple', 'Burning Bud',
+    'Giant Pinecone'
 ];
 
 // Summer
@@ -19,8 +20,10 @@ const seeds = [
 
 const gear = [
     'Watering Can', 'Trowel', 'Recall Wrench', 'Basic Sprinkler', 'Advanced Sprinkler',
+    'Medium Toy', 'Medium Treat',
     'Godly Sprinkler', 'Magnifying Glass', 'Tanning Mirror', 'Master Sprinkler',
-    'Cleaning Spray', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot'
+    'Cleaning Spray', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot', 
+    'Levelup Lollipop'
 ];
 
 const eggs = [
@@ -72,6 +75,7 @@ const SeedsEmoji = {
   'Pitcher Plant': '🪴',
   'Rafflesia': '🌺',  
   'Burning Bud': '🔥',
+  'Giant Pinecone': '🌲',
 };
 
 const GearEmoji = {
@@ -79,6 +83,8 @@ const GearEmoji = {
   'Trowel': '🛠️',
   'Basic Sprinkler': '💦',
   'Advanced Sprinkler': '🌊',
+  'Medium Toy': '🪀',
+  'Medium Treat': '🦴',
   'Godly Sprinkler': '✨',
   'Lightning Rod': '⚡',
   'Master Sprinkler': '👑',

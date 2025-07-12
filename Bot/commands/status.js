@@ -40,13 +40,17 @@ module.exports = {
         let results = []; // Declare results here, initialize as an empty array
 
         try {
-            results = await client.machine.broadcastEval(c => ({
-                guildsSize: c.guilds.cache.size,
-                usersCount: c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
-                wsPing: c.ws.ping,
-                processUptime: process.uptime(),
-                processRamUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
-            }));
+            results = await client.machine.broadcastEval(c => {
+                console.log(`[BROADCAST_EVAL] Machine ID: ${c.machine.id}, Cluster ID: ${c.cluster.id}, Guilds: ${c.guilds.cache.size}, Users: ${c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}`);
+                return {
+                    guildsSize: c.guilds.cache.size,
+                    usersCount: c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),
+                    wsPing: c.ws.ping,
+                    processUptime: process.uptime(),
+                    processRamUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
+                };
+            });
+            console.log("[BROADCAST_EVAL_RESULTS] Raw results from client.machine.broadcastEval:", results); // Log the raw array
 
             // Aggregate the results
             for (const res of results) {

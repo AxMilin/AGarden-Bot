@@ -41,7 +41,11 @@ module.exports = {
 
         try {
             results = await client.machine.broadcastEval(c => {
-                console.log(`[BROADCAST_EVAL] Machine ID: ${c.machine.id}, Cluster ID: ${c.cluster.id}, Guilds: ${c.guilds.cache.size}, Users: ${c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)}`);
+                // --- ADD THESE CONSOLE.LOGS ---
+                console.log(`[BROADCAST_EVAL_DEBUG] Code executing on Shard ID: ${c.ws.shards.first()?.id}, Cluster ID: ${c.cluster?.id}`);
+                console.log(`[BROADCAST_EVAL_DEBUG] Guilds found: ${c.guilds.cache.size}`);
+                // --- END ADDED LOGS ---
+
                 return {
                     guildsSize: c.guilds.cache.size,
                     usersCount: c.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0),

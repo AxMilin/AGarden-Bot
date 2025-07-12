@@ -95,6 +95,7 @@ const GearEmoji = {
   'Recall Wrench': '🔧',
   'Tanning Mirror': '🪞',
   'Magnifying Glass': '🔍',
+  'Levelup Lollipop': '🍭',
 };
 
 const EggEmoji = {

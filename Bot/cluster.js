@@ -1,5 +1,5 @@
 const { Client } = require('discord-cross-hosting');
-const ClusterManager = require('discord-hybrid-sharding');
+const { ClusterManager}  = require('discord-hybrid-sharding');
 const { CROSS_HOST_AUTH_TOKEN, BRIDGE_PORT, BRIDGE_HOST, AGENT } = require('./config');
 
 const client = new Client({
@@ -13,7 +13,7 @@ const client = new Client({
 client.on('debug', console.log);
 client.connect();
 
-const manager = new ClusterManager(`${__dirname}/bot.js`, { totalShards: 1, totalClusters: 'auto', restarts: {max: Infinity,},}); // Some dummy Data
+const manager = new ClusterManager(`${__dirname}/bot.js`, { totalShards: 1, totalClusters: 'auto', restarts: {max: Infinity}}); // Some dummy Data
 manager.on('clusterCreate', cluster => console.log(`Launched Cluster ${cluster.id}`));
 manager.on('debug', console.log);
 

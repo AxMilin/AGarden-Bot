@@ -6,7 +6,7 @@ const seeds = [
     'Corn', 'Daffodil', 'Watermelon', 'Pumpkin', 'Apple', 'Bamboo',
     'Coconut', 'Cactus', 'Dragon Fruit', 'Mango', 'Grape', 'Mushroom',
     'Pepper', 'Cacao', 'Beanstalk', 'Ember Lily', 'Sugar Apple', 'Burning Bud',
-    'Giant Pinecone'
+    'Giant Pinecone', 'Elder Strawberry'
 ];
 
 // Summer
@@ -76,6 +76,7 @@ const SeedsEmoji = {
   'Rafflesia': '🌺',  
   'Burning Bud': '🔥',
   'Giant Pinecone': '🌲',
+  'Elder Strawberry': '🍓',
 };
 
 const GearEmoji = {

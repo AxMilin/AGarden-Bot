@@ -19,11 +19,11 @@ const seeds = [
 */
 
 const gear = [
-    'Watering Can', 'Trowel', 'Recall Wrench', 'Basic Sprinkler', 'Advanced Sprinkler',
+    'Watering Can', 'Trading Ticket', 'Trowel', 'Recall Wrench', 'Basic Sprinkler', 'Advanced Sprinkler',
     'Medium Toy', 'Medium Treat',
     'Godly Sprinkler', 'Magnifying Glass', 'Tanning Mirror', 'Master Sprinkler',
     'Cleaning Spray', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot', 
-    'Levelup Lollipop'
+    'Grandmaster Sprinkler', 'Levelup Lollipop'
 ];
 
 const eggs = [

@@ -21,9 +21,10 @@ const seeds = [
 const gear = [
     'Watering Can', 'Trading Ticket', 'Trowel', 'Recall Wrench', 'Basic Sprinkler', 'Advanced Sprinkler',
     'Medium Toy', 'Medium Treat',
-    'Godly Sprinkler', 'Magnifying Glass', 'Tanning Mirror', 'Master Sprinkler',
+    'Godly Sprinkler', 'Magnifying Glass', 'Master Sprinkler',
     'Cleaning Spray', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot', 
-    'Grandmaster Sprinkler', 'Levelup Lollipop'
+    'Grandmaster Sprinkler', 'Levelup Lollipop',
+    //'Tanning Mirror',
 ];
 
 const eggs = [
@@ -81,6 +82,7 @@ const SeedsEmoji = {
 
 const GearEmoji = {
   'Watering Can': '🚿',
+  'Trading Ticket': '🎟️',
   'Trowel': '🛠️',
   'Basic Sprinkler': '💦',
   'Advanced Sprinkler': '🌊',
@@ -96,6 +98,7 @@ const GearEmoji = {
   'Recall Wrench': '🔧',
   'Tanning Mirror': '🪞',
   'Magnifying Glass': '🔍',
+  'Grandmaster Sprinkler': '🌟',
   'Levelup Lollipop': '🍭',
 };
 

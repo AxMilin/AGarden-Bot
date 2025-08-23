@@ -24,20 +24,18 @@ module.exports = {
             group.setName('page')
                  .setDescription('Pages of seed roles');
             seedChunks.forEach((chunk, i) => {
-                group.addSubcommand(sub =>
+                group.addSubcommand(sub => {
                     sub.setName(`p${i+1}`)
-                       .setDescription(`Seed roles page ${i+1}`)
-                       .addRoleOptions(opts => {
-                           chunk.forEach(seed => {
-                               opts.addRoleOption(option =>
-                                   option.setName(toOptionName(seed))
-                                         .setDescription(`Role for ${seed} alerts.`)
-                                         .setRequired(false)
-                               );
-                           });
-                           return opts;
-                       })
-                );
+                       .setDescription(`Seed roles page ${i+1}`);
+                    chunk.forEach(seed => {
+                        sub.addRoleOption(option =>
+                            option.setName(toOptionName(seed))
+                                  .setDescription(`Role for ${seed} alerts.`)
+                                  .setRequired(false)
+                        );
+                    });
+                    return sub;
+                });
             });
             return group;
         }),

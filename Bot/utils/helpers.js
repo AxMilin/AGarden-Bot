@@ -22,7 +22,7 @@ const gear = [
     'Watering Can', 'Trading Ticket', 'Trowel', 'Recall Wrench', 'Basic Sprinkler', 'Advanced Sprinkler',
     'Medium Toy', 'Medium Treat',
     'Godly Sprinkler', 'Magnifying Glass', 'Master Sprinkler',
-    'Cleaning Spray', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot', 
+    'Cleaning Spray', 'Cleansing Pet Shard', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot', 
     'Grandmaster Sprinkler', 'Levelup Lollipop',
     //'Tanning Mirror',
 ];
@@ -101,6 +101,7 @@ const GearEmoji = {
   'Magnifying Glass': '🔍',
   'Grandmaster Sprinkler': '🌟',
   'Levelup Lollipop': '🍭',
+  'Cleansing Pet Shard': '🔷',
 };
 
 const EggEmoji = {

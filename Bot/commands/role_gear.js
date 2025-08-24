@@ -1,9 +1,10 @@
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
-const { gears = [], GearsEmoji = {} } = require('../utils/helpers'); // safe defaults
+const { eggs, EggsEmoji } = require('../utils/helpers');
 
 const toOptionName = (itemName) => itemName.toLowerCase().replace(/ /g, '_');
 
+// Split array into chunks of size n
 function chunkArray(arr, size) {
     return arr.reduce((chunks, item, i) => {
         const chunkIndex = Math.floor(i / size);
@@ -13,23 +14,23 @@ function chunkArray(arr, size) {
     }, []);
 }
 
-const gearChunks = chunkArray(gears, 25);
+const eggChunks = chunkArray(eggs, 25);
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('role_gear')
-        .setDescription('Assign or remove roles for specific gear alerts.')
+        .setName('role_egg')
+        .setDescription('Assign or remove roles for specific egg alerts.')
         .addSubcommandGroup(group => {
             group.setName('page')
-                 .setDescription('Pages of gear roles');
-            gearChunks.forEach((chunk, i) => {
+                 .setDescription('Pages of egg roles');
+            eggChunks.forEach((chunk, i) => {
                 group.addSubcommand(sub => {
                     sub.setName(`p${i+1}`)
-                       .setDescription(`Gear roles page ${i+1}`);
-                    chunk.forEach(gear => {
+                       .setDescription(`Egg roles page ${i+1}`);
+                    chunk.forEach(egg => {
                         sub.addRoleOption(option =>
-                            option.setName(toOptionName(gear))
-                                  .setDescription(`Role for ${gear} alerts.`)
+                            option.setName(toOptionName(egg))
+                                  .setDescription(`Role for ${egg} alerts.`)
                                   .setRequired(false)
                         );
                     });
@@ -54,8 +55,9 @@ module.exports = {
 
         const botMember = interaction.guild.members.me;
         const channelPermissions = interaction.channel.permissionsFor(botMember);
+
         if (!channelPermissions.has(PermissionsBitField.Flags.SendMessages)) {
-            await interaction.editReply({ content: '❌ I cannot send messages in this channel. Please grant **Send Messages** permission.' });
+            await interaction.editReply({ content: '❌ I do not have permission to send messages in this channel. Please grant me the **Send Messages** permission.' });
             return;
         }
 
@@ -64,7 +66,7 @@ module.exports = {
         let channelDoc = await Channel.findOne({ serverId, type: channelType });
 
         if (!channelDoc) {
-            await interaction.editReply({ content: `⚠️ Please use \`/alert_set\` for **stock** notifications in this server before setting gear-specific roles.` });
+            await interaction.editReply({ content: `⚠️ Please use \`/alert_set\` for **stock** notifications in this server before setting egg-specific roles.` });
             return;
         }
 
@@ -78,31 +80,31 @@ module.exports = {
         }
 
         const pageIndex = parseInt(sub.replace('p', '')) - 1;
-        const chosenGears = gearChunks[pageIndex] || [];
+        const chosenEggs = eggChunks[pageIndex] || [];
 
         let replyMessages = [];
         let rolesModified = false;
 
-        for (const gearName of chosenGears) {
-            const optionName = toOptionName(gearName);
+        for (const eggName of chosenEggs) {
+            const optionName = toOptionName(eggName);
             const role = interaction.options.getRole(optionName);
             const roleId = role ? role.id : null;
-            const itemEmoji = GearsEmoji[gearName] || '';
+            const itemEmoji = EggsEmoji[eggName] || '';
 
             if (interaction.options.data.some(opt => opt.name === optionName)) {
                 rolesModified = true;
                 if (roleId) {
-                    channelDoc.alertRoles.set(gearName, roleId);
-                    replyMessages.push(`✅ ${itemEmoji} **${gearName}** alerts will now ping ${role}.`);
-                } else if (channelDoc.alertRoles.has(gearName)) {
-                    channelDoc.alertRoles.delete(gearName);
-                    replyMessages.push(`🗑️ Role for ${itemEmoji} **${gearName}** alerts has been removed.`);
+                    channelDoc.alertRoles.set(eggName, roleId);
+                    replyMessages.push(`✅ ${itemEmoji} **${eggName}** alerts will now ping ${role}.`);
+                } else if (channelDoc.alertRoles.has(eggName)) {
+                    channelDoc.alertRoles.delete(eggName);
+                    replyMessages.push(`🗑️ Role for ${itemEmoji} **${eggName}** alerts has been removed.`);
                 }
             }
         }
 
         if (!rolesModified) {
-            await interaction.editReply({ content: 'ℹ️ No gear roles were specified on this page.' });
+            await interaction.editReply({ content: 'ℹ️ No egg roles were specified on this page.' });
             return;
         }
 

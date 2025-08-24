@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
-const { gears, GearsEmoji } = require('../utils/helpers');
+const { gears = [], GearsEmoji = {} } = require('../utils/helpers'); // safe defaults
 
 const toOptionName = (itemName) => itemName.toLowerCase().replace(/ /g, '_');
 

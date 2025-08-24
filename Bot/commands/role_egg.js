@@ -1,9 +1,11 @@
+// role_egg.js
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const Channel = require('../models/Channel');
-const { eggs, EggsEmoji } = require('../utils/helpers');
+const { eggs, EggsEmoji } = require('../utils/helpers'); // <-- make sure this exists
 
 const toOptionName = (itemName) => itemName.toLowerCase().replace(/ /g, '_');
 
+// Split array into chunks of size n
 function chunkArray(arr, size) {
     return arr.reduce((chunks, item, i) => {
         const chunkIndex = Math.floor(i / size);
@@ -13,7 +15,7 @@ function chunkArray(arr, size) {
     }, []);
 }
 
-const eggChunks = chunkArray(eggs, 25);
+const eggChunks = eggs ? chunkArray(eggs, 25) : [];
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -54,8 +56,9 @@ module.exports = {
 
         const botMember = interaction.guild.members.me;
         const channelPermissions = interaction.channel.permissionsFor(botMember);
+
         if (!channelPermissions.has(PermissionsBitField.Flags.SendMessages)) {
-            await interaction.editReply({ content: '❌ I cannot send messages in this channel. Please grant **Send Messages** permission.' });
+            await interaction.editReply({ content: '❌ I do not have permission to send messages in this channel.' });
             return;
         }
 
@@ -70,6 +73,7 @@ module.exports = {
 
         if (!channelDoc.alertRoles) channelDoc.alertRoles = new Map();
 
+        // find which page was used
         const group = interaction.options.getSubcommandGroup();
         const sub = interaction.options.getSubcommand();
         if (group !== 'page') {

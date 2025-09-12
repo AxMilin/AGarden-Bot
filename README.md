@@ -6,6 +6,19 @@ A Discord bot that notifies Roblox game stock updates for the game **Grow A Gard
 
 ---
 
+## ⚠️ Project Status
+
+:wave: **Discontinued**  
+I no longer actively play the game, so development is discontinued.  
+However:
+- The bot may still get occasional updates for seeds, gear, and items.  
+- The bot is still hosted, but only on my personal server.  
+- Source code remains available for anyone to use or fork.  
+
+Thanks to everyone who supported this project! 💚  
+
+---
+
 ## Project Structure
 
 ```
@@ -75,8 +88,7 @@ Feel free to open issues or submit pull requests.
 - 🟣 Solana: `Dm1Di7eec24Yug4UYUpz3BBY84be3V8hERJfWA3QkFoo`
 - ₿ Bitcoin: `bc1qvfa423wxkqm7mw7m8mg2rpqqa7plx8rflwy8nd`
 - 🔷 Sui: `0x47f39de09455952effefed73be231ca10ba9a8aa5dccfc376c291573c11d2c6a`
-- 🟪 MATIC/POL: `0x4eAd25C7083d09d58edBFf432BB079Dbe2f56969`
+- 💎 Ethereum/POL(MATIC): `0x4eAd25C7083d09d58edBFf432BB079Dbe2f56969`
 
 
 Made with ❤️ for **Grow A Garden** Roblox fans.
-

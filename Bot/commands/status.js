@@ -40,7 +40,7 @@ module.exports = {
         let results = []; // Declare results here, initialize as an empty array
 
         try {
-            results = await client.machine.broadcastEval(c => {
+            results = await client.cluster.broadcastEval(c => {
                 // --- ADD THESE CONSOLE.LOGS ---
                 console.log(`[BROADCAST_EVAL_DEBUG] Code executing on Shard ID: ${c.ws.shards.first()?.id}, Cluster ID: ${c.cluster?.id}`);
                 console.log(`[BROADCAST_EVAL_DEBUG] Guilds found: ${c.guilds.cache.size}`);
@@ -54,7 +54,7 @@ module.exports = {
                     processRamUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)
                 };
             });
-            console.log("[BROADCAST_EVAL_RESULTS] Raw results from client.machine.broadcastEval:", results); // Log the raw array
+            console.log("[BROADCAST_EVAL_RESULTS] Raw results from client.cluster.broadcastEval:", results); // Log the raw array
 
             // Aggregate the results
             for (const res of results) {

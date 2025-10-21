@@ -7,6 +7,10 @@ const manager = new ClusterManager(`${__dirname}/bot.js`, {
     shardsPerClusters: Number(process.env.SHARDS_PER_CLUSTER) || 1,
     respawn: true,
     token: process.env.DISCORD_BOT_TOKEN,
+    // idk what am i doing here
+    restarts: {
+        max: Infinity,
+    },
 });
 
 // Events

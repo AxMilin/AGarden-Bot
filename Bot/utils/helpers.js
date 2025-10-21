@@ -2,11 +2,34 @@ const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 // Sam
 const seeds = [
-    'Carrot', 'Strawberry', 'Blueberry', 'Orange Tulip', 'Tomato',
-    'Corn', 'Daffodil', 'Watermelon', 'Pumpkin', 'Apple', 'Bamboo',
-    'Coconut', 'Cactus', 'Dragon Fruit', 'Mango', 'Grape', 'Mushroom',
-    'Pepper', 'Cacao', 'Beanstalk', 'Ember Lily', 'Sugar Apple', 'Burning Bud',
-    'Giant Pinecone', 'Elder Strawberry', 'Romanesco'    
+    'Carrot',
+    'Strawberry',
+    'Blueberry',
+    'Orange Tulip',
+    'Tomato',
+    'Corn',
+    'Daffodil',
+    'Watermelon',
+    'Pumpkin',
+    'Apple',
+    'Bamboo',
+    'Coconut',
+    'Cactus',
+    'Dragon Fruit',
+    'Mango',
+    'Grape',
+    'Mushroom',
+    'Pepper',
+    'Cacao',
+    'Beanstalk',
+    'Ember Lily',
+    'Sugar Apple',
+    'Burning Bud',
+    'Giant Pinecone',
+    'Elder Strawberry',
+    'Romanesco',
+    'Crimson Thorn',
+    'Great Pumpkin Seed',
 ];
 
 // Summer
@@ -19,11 +42,24 @@ const seeds = [
 */
 
 const gear = [
-    'Watering Can', 'Trading Ticket', 'Trowel', 'Recall Wrench', 'Basic Sprinkler', 'Advanced Sprinkler',
-    'Medium Toy', 'Medium Treat',
-    'Godly Sprinkler', 'Magnifying Glass', 'Master Sprinkler',
-    'Cleaning Spray', 'Cleansing Pet Shard', 'Favorite Tool', 'Harvest Tool', 'Friendship Pot', 
-    'Grandmaster Sprinkler', 'Levelup Lollipop',
+    'Watering Can',
+    'Trading Ticket',
+    'Trowel',
+    'Recall Wrench',
+    'Basic Sprinkler',
+    'Advanced Sprinkler',
+    'Medium Toy',
+    'Medium Treat',
+    'Godly Sprinkler',
+    'Magnifying Glass',
+    'Master Sprinkler',
+    'Cleaning Spray',
+    'Cleansing Pet Shard',
+    'Favorite Tool',
+    'Harvest Tool',
+    'Friendship Pot', 
+    'Grandmaster Sprinkler',
+    'Levelup Lollipop',
     //'Tanning Mirror',
 ];
 
@@ -33,11 +69,12 @@ const eggs = [
   'Rare Egg',
   'Legendary Egg',
   'Mythical Egg',
+  'Jungle Egg',
   'Bug Egg',
-  'Common Summer Egg',
-  'Rare Summer Egg',
-  'Paradise Egg',
-  'Bee Egg',
+  //'Common Summer Egg',
+  //'Rare Summer Egg',
+  //'Paradise Egg',
+  //'Bee Egg',
 ];
 
 const SeedsEmoji = {
@@ -79,6 +116,8 @@ const SeedsEmoji = {
   'Giant Pinecone': '🌲',
   'Elder Strawberry': '🍓',
   'Romanesco': '🥦',
+  'Crimson Thorn': '💎',
+  'Great Pumpkin Seed': '🎃',
 };
 
 const GearEmoji = {
@@ -110,6 +149,7 @@ const EggEmoji = {
   'Rare Egg': '🐣',            // hatching chick
   'Legendary Egg': '🦄',       // dragon (legendary feel)
   'Mythical Egg': '🔮',        // magic wand (mythical theme)
+  'Jungle Egg': '🌳',
   'Bug Egg': '🐛',             // bug
   'Common Summer Egg': '🟡',   // sunny summer vibe
   'Rare Summer Egg': '🔵',     // beach/rare summer

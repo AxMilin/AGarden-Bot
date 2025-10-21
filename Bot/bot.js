@@ -137,14 +137,15 @@ client.once('ready', () => {
 });
 
 client.on('ready', () => {
-    setInterval(() => {
-        client.machine
-            .broadcastEval(`this.guilds.cache.size`)
-            .then(results => {
-                console.log(results);
-            })
-            .catch(e => console.log(e)); // broadcastEval() over all cross-hosted clients
-    }, 10000);
+    //setInterval(() => {
+    //    client.machine
+    //        .broadcastEval(`this.guilds.cache.size`)
+    //        .then(results => {
+    //            console.log(results);
+    //        })
+    //        .catch(e => console.log(e)); // broadcastEval() over all cross-hosted clients
+    //}, 10000);
+    // Uncomment incase you want to host on many nodes using discord-cross-hosting lol
 });
 
 // Bot Login
